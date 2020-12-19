@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class LoginResponse extends BaseResponse {
     @SerializedName("data")
-    public ArrayList<LoginModel> data;
+    public LoginModel data;
 
     public static class LoginModel {
         @SerializedName("EMAIL")

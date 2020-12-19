@@ -21,7 +21,7 @@ public class TestFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_test, container, false);
 
-        MaterialButton materialButtonTestVideo = view.findViewById(R.id.materialButtonTestVideo);
+        MaterialButton materialButtonTestVideo = view.findViewById(R.id.materialButtonTest);
 
         materialButtonTestVideo.setOnClickListener(new View.OnClickListener() {
             @Override

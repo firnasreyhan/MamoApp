@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/cardViewQuestion"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="30dp"
+    android:layout_height="3dp"
+    android:layout_marginLeft="3.5dp"
+    android:layout_marginRight="3.5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4.5dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#80FFFFFF"/>

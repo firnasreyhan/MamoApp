@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".view.activity.TestResultActivity">
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/imageViewNegative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_negative_result"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"/>
+
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/imageViewPositive"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_positive_result"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButtonBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="46dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="43dp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="KEMBALI"
+        android:textColor="@color/pink6"
+        android:textSize="14sp"/>
+
+
+</FrameLayout>
