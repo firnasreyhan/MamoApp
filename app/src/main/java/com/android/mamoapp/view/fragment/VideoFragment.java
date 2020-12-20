@@ -44,7 +44,7 @@ public class VideoFragment extends Fragment {
         swipeRefreshLayoutVideo = view.findViewById(R.id.swipeRefreshLayoutVideo);
         shimmerFrameLayoutVideo = view.findViewById(R.id.shimmerFrameLayoutVideo);
 
-        apiInterface.video().enqueue(new Callback<VideoResponse>() {
+        apiInterface.getVideo().enqueue(new Callback<VideoResponse>() {
             @Override
             public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
                 if (response.body().status) {
@@ -68,7 +68,7 @@ public class VideoFragment extends Fragment {
                 shimmerFrameLayoutVideo.setVisibility(View.VISIBLE);
                 recyclerViewVideo.setVisibility(View.GONE);
 
-                apiInterface.video().enqueue(new Callback<VideoResponse>() {
+                apiInterface.getVideo().enqueue(new Callback<VideoResponse>() {
                     @Override
                     public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
                         if (response.body().status) {

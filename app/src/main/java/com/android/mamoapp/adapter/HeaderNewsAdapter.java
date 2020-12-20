@@ -1,5 +1,6 @@
 package com.android.mamoapp.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.mamoapp.R;
 import com.android.mamoapp.api.reponse.NewsResponse;
+import com.android.mamoapp.api.reponse.VideoResponse;
+import com.android.mamoapp.view.activity.NewsDetailActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -39,11 +42,30 @@ public class HeaderNewsAdapter extends RecyclerView.Adapter<HeaderNewsAdapter.Vi
 //                .placeholder(R.drawable.mqdefault)
                 .into(holder.imageViewHeaderNews);
         holder.textViewTitleNews.setText(list.get(position).titleNews);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewsDetailActivity.class);
+                intent.putExtra("ID_NEWS", list.get(position).idNews);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void clear() {
+        list.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(ArrayList<NewsResponse.NewsModel> list) {
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

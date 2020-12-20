@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class NewsDetailResponse extends BaseResponse{
     @SerializedName("data")
-    public ArrayList<NewsDetailModel> data;
+    public NewsDetailModel data;
 
     public static class NewsDetailModel {
         @SerializedName("ID_NEWS")

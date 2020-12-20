@@ -1,17 +1,20 @@
 package com.android.mamoapp.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.mamoapp.R;
 import com.android.mamoapp.api.reponse.NewsResponse;
+import com.android.mamoapp.api.reponse.VideoResponse;
+import com.android.mamoapp.view.activity.NewsDetailActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -40,6 +43,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 .into(holder.imageViewNews);
         holder.textViewTitleNews.setText(list.get(position).titleNews);
         holder.textViewEditorNews.setText(list.get(position).editor);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NewsDetailActivity.class);
+                intent.putExtra("ID_NEWS", list.get(position).idNews);
+                v.getContext().startActivity(intent);
+            }
+        });
+    }
+
+    public void clear() {
+        list.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(ArrayList<NewsResponse.NewsModel> list) {
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -55,7 +77,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             super(itemView);
             imageViewNews = itemView.findViewById(R.id.imageViewNews);
             textViewTitleNews = itemView.findViewById(R.id.textViewTitleNews);
-            textViewEditorNews = itemView.findViewById(R.id.textViewEditorNews);
+            textViewEditorNews = itemView.findViewById(R.id.textViewEditor);
         }
     }
 }

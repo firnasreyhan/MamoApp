@@ -44,7 +44,7 @@ public class TestActivity extends AppCompatActivity {
         materialButtonYes = findViewById(R.id.materialButtonYes);
         materialButtonNo = findViewById(R.id.materialButtonNo);
 
-        apiInterface.question().enqueue(new Callback<QuestionResponse>() {
+        apiInterface.getQuestion().enqueue(new Callback<QuestionResponse>() {
             @Override
             public void onResponse(Call<QuestionResponse> call, Response<QuestionResponse> response) {
                 if (response.body().status) {

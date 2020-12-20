@@ -19,14 +19,14 @@ import retrofit2.http.Path;
 public interface ApiInterface {
     @POST("user/login")
     @FormUrlEncoded
-    Call<LoginResponse> login(
+    Call<LoginResponse> postLogin(
             @Field("email") String email,
             @Field("password") String password
     );
 
     @POST("user/register")
     @FormUrlEncoded
-    Call<BaseResponse> register(
+    Call<BaseResponse> postRegister(
             @Field("email") String email,
             @Field("password") String password,
             @Field("idRole") String idRole,
@@ -57,14 +57,14 @@ public interface ApiInterface {
     );
 
     @GET("news")
-    Call<NewsResponse> news();
+    Call<NewsResponse> getNews();
 
     @GET("news/detail/{idNews}")
-    Call<NewsDetailResponse> newsDetail(@Path("idNews") String idNews);
+    Call<NewsDetailResponse> getNewsDetail(@Path("idNews") String idNews);
 
     @GET("video")
-    Call<VideoResponse> video();
+    Call<VideoResponse> getVideo();
 
     @GET("sadari/question")
-    Call<QuestionResponse> question();
+    Call<QuestionResponse> getQuestion();
 }

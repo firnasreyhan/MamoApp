@@ -14,7 +14,8 @@
         android:theme="@style/ThemeMamoApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.activity.TestResultActivity"></activity>
+        <activity android:name=".view.activity.NewsDetailActivity"></activity>
+        <activity android:name=".view.activity.TestResultActivity" />
         <activity android:name=".view.activity.TestActivity" />
         <activity android:name=".view.activity.TestVideoActivity" />
         <activity android:name=".view.activity.SignUpActivity" />

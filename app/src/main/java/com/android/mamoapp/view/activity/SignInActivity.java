@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.android.mamoapp.R;
 import com.android.mamoapp.api.ApiClient;
 import com.android.mamoapp.api.ApiInterface;
-import com.android.mamoapp.api.reponse.BaseResponse;
 import com.android.mamoapp.api.reponse.LoginResponse;
 import com.android.mamoapp.preference.AppPreference;
 import com.google.android.material.button.MaterialButton;
@@ -68,7 +67,7 @@ public class SignInActivity extends AppCompatActivity {
 
                     int loadingTime = 3000;
                     new Handler().postDelayed(() -> {
-                        apiInterface.login(
+                        apiInterface.postLogin(
                                 textInputEditTextEmail.getText().toString(),
                                 textInputEditTextPassword.getText().toString()
                         ).enqueue(new Callback<LoginResponse>() {

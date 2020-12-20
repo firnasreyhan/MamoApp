@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.mamoapp.R;
 import com.android.mamoapp.api.ApiClient;
@@ -91,7 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     int loadingTime = 3000;
                     new Handler().postDelayed(() -> {
-                        apiInterface.register(
+                        apiInterface.postRegister(
                                 textInputEditTextEmail.getText().toString(),
                                 textInputEditTextPassword.getText().toString(),
                                 "1",
