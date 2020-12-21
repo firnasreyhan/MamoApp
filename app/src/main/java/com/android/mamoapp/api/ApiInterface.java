@@ -6,6 +6,7 @@ import com.android.mamoapp.api.reponse.NewsDetailResponse;
 import com.android.mamoapp.api.reponse.NewsResponse;
 import com.android.mamoapp.api.reponse.QuestionResponse;
 import com.android.mamoapp.api.reponse.SadariResponse;
+import com.android.mamoapp.api.reponse.VideoDetailResponse;
 import com.android.mamoapp.api.reponse.VideoResponse;
 
 import retrofit2.Call;
@@ -49,6 +50,20 @@ public interface ApiInterface {
             @Field("answer") boolean answer
     );
 
+    @POST("news/click")
+    @FormUrlEncoded
+    Call<BaseResponse> postViewNews(
+            @Field("email") String email,
+            @Field("idNews") String idNews
+    );
+
+    @POST("news/share")
+    @FormUrlEncoded
+    Call<BaseResponse> postShareNews(
+            @Field("email") String email,
+            @Field("idNews") String idNews
+    );
+
     @PUT("sadari/result")
     @FormUrlEncoded
     Call<BaseResponse> putResultSadari(
@@ -64,6 +79,9 @@ public interface ApiInterface {
 
     @GET("video")
     Call<VideoResponse> getVideo();
+
+    @GET("video/detail/{idVideo}")
+    Call<VideoDetailResponse> getVideoDetail(@Path("idVideo") String idVideo);
 
     @GET("sadari/question")
     Call<QuestionResponse> getQuestion();

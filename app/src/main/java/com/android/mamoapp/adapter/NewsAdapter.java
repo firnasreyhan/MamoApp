@@ -1,6 +1,7 @@
 package com.android.mamoapp.adapter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.android.mamoapp.api.reponse.NewsResponse;
 import com.android.mamoapp.api.reponse.VideoResponse;
 import com.android.mamoapp.view.activity.NewsDetailActivity;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
@@ -37,9 +40,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Glide.with(holder.itemView.getContext())
                 .load("https://ilham.kristomoyo.com/images/news/" + list.get(position).newsImage)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .skipMemoryCache(true)
-//                .placeholder(R.drawable.mqdefault)
+                .dontAnimate()
+                .dontTransform()
+                .priority(Priority.IMMEDIATE)
+                .encodeFormat(Bitmap.CompressFormat.PNG)
+                .format(DecodeFormat.DEFAULT)
+                .placeholder(R.drawable.img_default_video)
                 .into(holder.imageViewNews);
         holder.textViewTitleNews.setText(list.get(position).titleNews);
         holder.textViewEditorNews.setText(list.get(position).editor);
