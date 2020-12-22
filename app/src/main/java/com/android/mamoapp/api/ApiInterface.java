@@ -4,6 +4,7 @@ import com.android.mamoapp.api.reponse.BaseResponse;
 import com.android.mamoapp.api.reponse.LoginResponse;
 import com.android.mamoapp.api.reponse.NewsDetailResponse;
 import com.android.mamoapp.api.reponse.NewsResponse;
+import com.android.mamoapp.api.reponse.NewsTrendingResponse;
 import com.android.mamoapp.api.reponse.QuestionResponse;
 import com.android.mamoapp.api.reponse.SadariResponse;
 import com.android.mamoapp.api.reponse.VideoDetailResponse;
@@ -16,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
     @POST("user/login")
@@ -72,16 +74,28 @@ public interface ApiInterface {
     );
 
     @GET("news")
-    Call<NewsResponse> getNews();
+    Call<NewsResponse> getNews(
+            @Query("search") String search,
+            @Query("limit") int limit
+    );
 
     @GET("news/detail/{idNews}")
-    Call<NewsDetailResponse> getNewsDetail(@Path("idNews") String idNews);
+    Call<NewsDetailResponse> getNewsDetail(
+            @Path("idNews") String idNews
+    );
+
+    @GET("news/trending")
+    Call<NewsTrendingResponse> getNewsTrending(
+            @Query("limit") int limit
+    );
 
     @GET("video")
     Call<VideoResponse> getVideo();
 
     @GET("video/detail/{idVideo}")
-    Call<VideoDetailResponse> getVideoDetail(@Path("idVideo") String idVideo);
+    Call<VideoDetailResponse> getVideoDetail(
+            @Path("idVideo") String idVideo
+    );
 
     @GET("sadari/question")
     Call<QuestionResponse> getQuestion();

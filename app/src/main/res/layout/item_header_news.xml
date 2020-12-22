@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="245dp"
-    android:layout_height="170dp"
+    android:layout_width="200dp"
+    android:layout_height="135dp"
     android:layout_marginLeft="11dp"
     android:layout_marginRight="11dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="14dp"
-    app:cardElevation="0dp"
-    android:id="@+id/cardViewHeaderNews">
+    app:cardElevation="0dp">
 
     <FrameLayout
         android:layout_width="match_parent"

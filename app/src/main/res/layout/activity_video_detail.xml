@@ -109,7 +109,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:autoPlay="false"
-                        app:showFullScreenButton="true" />
+                        app:showYouTubeButton="true"
+                        app:showFullScreenButton="false"/>
 
                 </LinearLayout>
 

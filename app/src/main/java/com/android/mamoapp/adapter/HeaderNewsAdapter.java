@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.mamoapp.R;
 import com.android.mamoapp.api.reponse.NewsResponse;
+import com.android.mamoapp.api.reponse.NewsTrendingResponse;
 import com.android.mamoapp.api.reponse.VideoResponse;
 import com.android.mamoapp.view.activity.NewsDetailActivity;
 import com.bumptech.glide.Glide;
@@ -24,9 +25,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 
 public class HeaderNewsAdapter extends RecyclerView.Adapter<HeaderNewsAdapter.ViewHolder> {
-    private ArrayList<NewsResponse.NewsModel> list;
+    private ArrayList<NewsTrendingResponse.NewsTrendingModel> list;
 
-    public HeaderNewsAdapter(ArrayList<NewsResponse.NewsModel> list) {
+    public HeaderNewsAdapter(ArrayList<NewsTrendingResponse.NewsTrendingModel> list) {
         this.list = list;
     }
 
@@ -39,7 +40,8 @@ public class HeaderNewsAdapter extends RecyclerView.Adapter<HeaderNewsAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Glide.with(holder.itemView.getContext())
-                .load("https://ilham.kristomoyo.com/images/news/" + list.get(position).newsImage)
+                //.load("https://ilham.kristomoyo.com/images/news/" + list.get(position).newsImage)
+                .load(R.drawable.img_default_video)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .skipMemoryCache(true)
                 .dontAnimate()
@@ -71,7 +73,7 @@ public class HeaderNewsAdapter extends RecyclerView.Adapter<HeaderNewsAdapter.Vi
         notifyDataSetChanged();
     }
 
-    public void addAll(ArrayList<NewsResponse.NewsModel> list) {
+    public void addAll(ArrayList<NewsTrendingResponse.NewsTrendingModel> list) {
         this.list.addAll(list);
         notifyDataSetChanged();
     }
@@ -79,13 +81,11 @@ public class HeaderNewsAdapter extends RecyclerView.Adapter<HeaderNewsAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageViewHeaderNews;
         private TextView textViewTitleNews;
-        private CardView cardViewHeaderNews;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageViewHeaderNews = itemView.findViewById(R.id.imageViewHeaderNews);
             textViewTitleNews = itemView.findViewById(R.id.textViewTitleNews);
-            cardViewHeaderNews = itemView.findViewById(R.id.cardViewHeaderNews);
         }
     }
 }

@@ -20,6 +20,7 @@ import com.android.mamoapp.adapter.NewsAdapter;
 import com.android.mamoapp.api.ApiClient;
 import com.android.mamoapp.api.ApiInterface;
 import com.android.mamoapp.api.reponse.NewsResponse;
+import com.android.mamoapp.api.reponse.NewsTrendingResponse;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewHeaderNews, recyclerViewNews;
     private ShimmerFrameLayout shimmerFrameLayoutHeaderNews, shimmerFrameLayoutNews;
     private SwipeRefreshLayout swipeRefreshLayoutHome;
-    private NestedScrollView nestedScrollViewHome;
     private HeaderNewsAdapter headerNewsAdapter;
     private NewsAdapter newsAdapter;
 
@@ -49,14 +49,15 @@ public class HomeFragment extends Fragment {
         shimmerFrameLayoutHeaderNews = view.findViewById(R.id.shimmerFrameLayoutHeaderNews);
         shimmerFrameLayoutNews = view.findViewById(R.id.shimmerFrameLayoutNews);
         swipeRefreshLayoutHome = view.findViewById(R.id.swipeRefreshLayoutHome);
-        nestedScrollViewHome = view.findViewById(R.id.nestedScrollViewHome);
 
         recyclerViewHeaderNews.setHasFixedSize(true);
         recyclerViewNews.setHasFixedSize(true);
 
-        apiInterface.getNews().enqueue(new Callback<NewsResponse>() {
+        apiInterface.getNewsTrending(
+                5
+        ).enqueue(new Callback<NewsTrendingResponse>() {
             @Override
-            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+            public void onResponse(Call<NewsTrendingResponse> call, Response<NewsTrendingResponse> response) {
                 if (response.body().status) {
                     if (!response.body().data.isEmpty()) {
                         setRecyclerViewHeaderNews(response.body().data);
@@ -65,12 +66,15 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<NewsResponse> call, Throwable t) {
-                Log.e("news", t.getMessage());
+            public void onFailure(Call<NewsTrendingResponse> call, Throwable t) {
+                Log.e("getNewsTrending", t.getMessage());
             }
         });
 
-        apiInterface.getNews().enqueue(new Callback<NewsResponse>() {
+        apiInterface.getNews(
+                "",
+                3
+        ).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                 if (response.body().status) {
@@ -98,9 +102,11 @@ public class HomeFragment extends Fragment {
                 recyclerViewHeaderNews.setVisibility(View.GONE);
                 recyclerViewNews.setVisibility(View.GONE);
 
-                apiInterface.getNews().enqueue(new Callback<NewsResponse>() {
+                apiInterface.getNewsTrending(
+                        5
+                ).enqueue(new Callback<NewsTrendingResponse>() {
                     @Override
-                    public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+                    public void onResponse(Call<NewsTrendingResponse> call, Response<NewsTrendingResponse> response) {
                         if (response.body().status) {
                             if (!response.body().data.isEmpty()) {
                                 headerNewsAdapter.addAll(response.body().data);
@@ -112,12 +118,14 @@ public class HomeFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<NewsResponse> call, Throwable t) {
-                        Log.e("news", t.getMessage());
+                    public void onFailure(Call<NewsTrendingResponse> call, Throwable t) {
+                        Log.e("getNewsTrending", t.getMessage());
                     }
                 });
 
-                apiInterface.getNews().enqueue(new Callback<NewsResponse>() {
+                apiInterface.getNews(
+                        "",
+                        3).enqueue(new Callback<NewsResponse>() {
                     @Override
                     public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                         if (response.body().status) {
@@ -147,7 +155,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public void setRecyclerViewHeaderNews(ArrayList<NewsResponse.NewsModel> list) {
+    public void setRecyclerViewHeaderNews(ArrayList<NewsTrendingResponse.NewsTrendingModel> list) {
         headerNewsAdapter = new HeaderNewsAdapter(list);
         recyclerViewHeaderNews.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         recyclerViewHeaderNews.setAdapter(headerNewsAdapter);
