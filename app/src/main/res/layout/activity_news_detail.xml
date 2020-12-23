@@ -33,6 +33,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <com.facebook.shimmer.ShimmerFrameLayout
+        android:visibility="gone"
         android:id="@+id/shimmerFrameLayoutDetailNews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,7 +55,7 @@
         android:id="@+id/nestedScrollViewDetailNews"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -249,6 +250,21 @@
                     android:textColor="#333333"/>
 
             </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/materialButtonShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/pink6"
+                android:fontFamily="@font/montserrat_bold"
+                android:padding="12dp"
+                app:icon="@drawable/ic_share"
+                app:iconGravity="textStart"
+                app:iconPadding="16dp"
+                android:text="Bagikan"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
 
         </LinearLayout>
 

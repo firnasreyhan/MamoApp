@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.android.mamoapp.R;
 import com.android.mamoapp.adapter.VideoAdapter;
@@ -32,6 +33,7 @@ public class VideoFragment extends Fragment {
     private RecyclerView recyclerViewVideo;
     private SwipeRefreshLayout swipeRefreshLayoutVideo;
     private ShimmerFrameLayout shimmerFrameLayoutVideo;
+    private FrameLayout frameLayoutEmptyVideo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +45,7 @@ public class VideoFragment extends Fragment {
         recyclerViewVideo = view.findViewById(R.id.recyclerViewVideo);
         swipeRefreshLayoutVideo = view.findViewById(R.id.swipeRefreshLayoutVideo);
         shimmerFrameLayoutVideo = view.findViewById(R.id.shimmerFrameLayoutVideo);
+        frameLayoutEmptyVideo = view.findViewById(R.id.frameLayoutEmptyVideo);
 
         apiInterface.getVideo().enqueue(new Callback<VideoResponse>() {
             @Override
@@ -50,7 +53,12 @@ public class VideoFragment extends Fragment {
                 if (response.body().status) {
                     if (!response.body().data.isEmpty()) {
                         setRecyclerViewVideo(response.body().data);
+                        showNotEmpty();
+                    } else {
+                        showEmpty();
                     }
+                } else {
+                    showEmpty();
                 }
             }
 
@@ -74,9 +82,7 @@ public class VideoFragment extends Fragment {
                         if (response.body().status) {
                             if (!response.body().data.isEmpty()) {
                                 videoAdapter.addAll(response.body().data);
-                                shimmerFrameLayoutVideo.stopShimmer();
-                                shimmerFrameLayoutVideo.setVisibility(View.GONE);
-                                recyclerViewVideo.setVisibility(View.VISIBLE);
+                                showNotEmpty();
                             }
                         }
                     }
@@ -101,6 +107,15 @@ public class VideoFragment extends Fragment {
         videoAdapter = new VideoAdapter(list);
         recyclerViewVideo.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewVideo.setAdapter(videoAdapter);
+    }
+
+    public void showEmpty() {
+        shimmerFrameLayoutVideo.stopShimmer();
+        shimmerFrameLayoutVideo.setVisibility(View.GONE);
+        frameLayoutEmptyVideo.setVisibility(View.VISIBLE);
+    }
+
+    public void showNotEmpty() {
         shimmerFrameLayoutVideo.stopShimmer();
         shimmerFrameLayoutVideo.setVisibility(View.GONE);
         recyclerViewVideo.setVisibility(View.VISIBLE);

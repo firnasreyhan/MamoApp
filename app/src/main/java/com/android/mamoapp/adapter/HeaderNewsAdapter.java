@@ -40,8 +40,8 @@ public class HeaderNewsAdapter extends RecyclerView.Adapter<HeaderNewsAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Glide.with(holder.itemView.getContext())
-                //.load("https://ilham.kristomoyo.com/images/news/" + list.get(position).newsImage)
-                .load(R.drawable.img_default_video)
+                .load("https://ilham.kristomoyo.com/images/news/" + list.get(position).newsImage)
+                //.load(R.drawable.img_default_video)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .skipMemoryCache(true)
                 .dontAnimate()

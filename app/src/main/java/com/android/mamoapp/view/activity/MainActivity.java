@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -19,17 +20,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
-
     private FragmentManager fragmentManager;
-
     private Fragment fragmentActive, fragmentHome, fragmentVideo, fragmentTest, fragmentProfile;
-
     private boolean doubleBackToExit;
+
+    private String idNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        idNews = getIntent().getStringExtra("ID_NEWS");
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().add(R.id.frameLayoutFragment, fragmentTest, "Diagnosis").hide(fragmentTest).commit();
         fragmentManager.beginTransaction().add(R.id.frameLayoutFragment, fragmentVideo, "Video").hide(fragmentVideo).commit();
         fragmentManager.beginTransaction().add(R.id.frameLayoutFragment, fragmentHome, "Home").commit();
+
+        if (idNews != null) {
+            Intent intent = new Intent(this, NewsDetailActivity.class);
+            intent.putExtra("ID_NEWS", idNews);
+            startActivity(intent);
+        }
 
     }
 

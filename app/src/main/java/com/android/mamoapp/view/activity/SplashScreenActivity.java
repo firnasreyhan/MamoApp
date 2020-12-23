@@ -1,6 +1,7 @@
 package com.android.mamoapp.view.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,7 +30,16 @@ public class SplashScreenActivity extends AppCompatActivity {
         int loadingTime = 3000;
         new Handler().postDelayed(() -> {
             if (AppPreference.getUser(getApplicationContext()) != null) {
-                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                Uri uri = getIntent().getData();
+                if (uri != null) {
+                    String[] spPath= uri.getPath().split("/");
+                    String idNews = spPath[spPath.length-1];
+                    Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                    intent.putExtra("ID_NEWS", idNews);
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                }
             } else {
                 startActivity(new Intent(SplashScreenActivity.this, SignInActivity.class));
             }

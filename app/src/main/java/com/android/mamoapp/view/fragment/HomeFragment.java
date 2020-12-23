@@ -1,5 +1,6 @@
 package com.android.mamoapp.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.core.widget.NestedScrollView;
@@ -13,6 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.mamoapp.R;
 import com.android.mamoapp.adapter.HeaderNewsAdapter;
@@ -21,6 +25,7 @@ import com.android.mamoapp.api.ApiClient;
 import com.android.mamoapp.api.ApiInterface;
 import com.android.mamoapp.api.reponse.NewsResponse;
 import com.android.mamoapp.api.reponse.NewsTrendingResponse;
+import com.android.mamoapp.view.activity.NewsListActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -33,6 +38,9 @@ public class HomeFragment extends Fragment {
     private ApiInterface apiInterface;
     private RecyclerView recyclerViewHeaderNews, recyclerViewNews;
     private ShimmerFrameLayout shimmerFrameLayoutHeaderNews, shimmerFrameLayoutNews;
+    private LinearLayout linearLayoutNews;
+    private FrameLayout frameLayoutEmptyNews;
+    private TextView textViewNewsList;
     private SwipeRefreshLayout swipeRefreshLayoutHome;
     private HeaderNewsAdapter headerNewsAdapter;
     private NewsAdapter newsAdapter;
@@ -46,9 +54,12 @@ public class HomeFragment extends Fragment {
         apiInterface = ApiClient.getClient();
         recyclerViewHeaderNews = view.findViewById(R.id.recyclerViewHeaderNews);
         recyclerViewNews = view.findViewById(R.id.recyclerViewNews);
+        textViewNewsList = view.findViewById(R.id.textViewNewsList);
         shimmerFrameLayoutHeaderNews = view.findViewById(R.id.shimmerFrameLayoutHeaderNews);
         shimmerFrameLayoutNews = view.findViewById(R.id.shimmerFrameLayoutNews);
         swipeRefreshLayoutHome = view.findViewById(R.id.swipeRefreshLayoutHome);
+        linearLayoutNews = view.findViewById(R.id.linearLayoutNews);
+        frameLayoutEmptyNews = view.findViewById(R.id.frameLayoutEmptyNews);
 
         recyclerViewHeaderNews.setHasFixedSize(true);
         recyclerViewNews.setHasFixedSize(true);
@@ -61,7 +72,13 @@ public class HomeFragment extends Fragment {
                 if (response.body().status) {
                     if (!response.body().data.isEmpty()) {
                         setRecyclerViewHeaderNews(response.body().data);
+                    } else {
+                        linearLayoutNews.setVisibility(View.GONE);
+                        frameLayoutEmptyNews.setVisibility(View.VISIBLE);
                     }
+                } else {
+                    linearLayoutNews.setVisibility(View.GONE);
+                    frameLayoutEmptyNews.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -80,7 +97,13 @@ public class HomeFragment extends Fragment {
                 if (response.body().status) {
                     if (!response.body().data.isEmpty()) {
                         setRecyclerViewNews(response.body().data);
+                    } else {
+                        linearLayoutNews.setVisibility(View.GONE);
+                        frameLayoutEmptyNews.setVisibility(View.VISIBLE);
                     }
+                } else {
+                    linearLayoutNews.setVisibility(View.GONE);
+                    frameLayoutEmptyNews.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -113,7 +136,13 @@ public class HomeFragment extends Fragment {
                                 shimmerFrameLayoutHeaderNews.stopShimmer();
                                 shimmerFrameLayoutHeaderNews.setVisibility(View.GONE);
                                 recyclerViewHeaderNews.setVisibility(View.VISIBLE);
+                            } else {
+                                linearLayoutNews.setVisibility(View.GONE);
+                                frameLayoutEmptyNews.setVisibility(View.VISIBLE);
                             }
+                        } else {
+                            linearLayoutNews.setVisibility(View.GONE);
+                            frameLayoutEmptyNews.setVisibility(View.VISIBLE);
                         }
                     }
 
@@ -134,7 +163,13 @@ public class HomeFragment extends Fragment {
                                 shimmerFrameLayoutNews.stopShimmer();
                                 shimmerFrameLayoutNews.setVisibility(View.GONE);
                                 recyclerViewNews.setVisibility(View.VISIBLE);
+                            } else {
+                                linearLayoutNews.setVisibility(View.GONE);
+                                frameLayoutEmptyNews.setVisibility(View.VISIBLE);
                             }
+                        } else {
+                            linearLayoutNews.setVisibility(View.GONE);
+                            frameLayoutEmptyNews.setVisibility(View.VISIBLE);
                         }
                     }
 
@@ -149,6 +184,13 @@ public class HomeFragment extends Fragment {
                         swipeRefreshLayoutHome.setRefreshing(false);
                     }
                 }, 3000);
+            }
+        });
+
+        textViewNewsList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(), NewsListActivity.class));
             }
         });
 

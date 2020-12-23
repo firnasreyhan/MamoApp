@@ -1,9 +1,11 @@
 package com.android.mamoapp.view.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
@@ -29,6 +31,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.button.MaterialButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +46,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     private TextView textViewCategoryNews, textViewDateNews, textViewTitleNews, textViewEditorNews, textViewContentNews, textViewViewCountNews, textViewShareCountNews;
     private ImageView imageViewImageNews;
     private WebView webViewContentNews;
+    private MaterialButton materialButtonShare;
     private ShimmerFrameLayout shimmerFrameLayoutDetailNews;
     private NestedScrollView nestedScrollViewDetailNews;
 
@@ -65,6 +69,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         textViewShareCountNews = findViewById(R.id.textViewShareCountNews);
         imageViewImageNews = findViewById(R.id.imageViewImageNews);
         webViewContentNews = findViewById(R.id.webViewContentNews);
+        materialButtonShare = findViewById(R.id.materialButtonShare);
         nestedScrollViewDetailNews = findViewById(R.id.nestedScrollViewDetailNews);
         shimmerFrameLayoutDetailNews = findViewById(R.id.shimmerFrameLayoutDetailNews);
 
@@ -110,6 +115,20 @@ public class NewsDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<NewsDetailResponse> call, Throwable t) {
                 Log.e("getNewsDetail", t.getMessage());
+            }
+        });
+
+        materialButtonShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(Intent.ACTION_SEND);
+                myIntent.setType("text/plain");
+                String shareBody = textViewTitleNews.getText().toString() + "\n\n" + "https://ilham.kristomoyo.com/news/view/" + idNews;
+                //String shareBody = model.getTitleNews() + "\n" + "http://digimon.kristomoyo.com/news/view/" + model.getIdNews();
+                String shareSub = "MamoApp";
+                myIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
+                myIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                startActivityForResult(Intent.createChooser(myIntent, "Bagikan Berita Ini"), 0);
             }
         });
     }
@@ -164,5 +183,28 @@ public class NewsDetailActivity extends AppCompatActivity {
     public void onPause() {
         shimmerFrameLayoutDetailNews.stopShimmer();
         super.onPause();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                apiInterface.postShareNews(
+                        AppPreference.getUser(this).email,
+                        idNews
+                ).enqueue(new Callback<BaseResponse>() {
+                    @Override
+                    public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                        Log.e("postShareNews", response.body().message);
+                    }
+
+                    @Override
+                    public void onFailure(Call<BaseResponse> call, Throwable t) {
+                        Log.e("postShareNews", t.getMessage());
+                    }
+                });
+            }
+        }
     }
 }

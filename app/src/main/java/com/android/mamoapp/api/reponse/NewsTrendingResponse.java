@@ -15,13 +15,7 @@ public class NewsTrendingResponse extends BaseResponse{
         @SerializedName("TITLE_NEWS")
         public String titleNews;
 
-        @SerializedName("TOTAL_NEWS_VIEW")
-        public String totalNewsView;
-
-        @SerializedName("TOTAL_NEWS_SHARE")
-        public String totalNewsShare;
-
-        @SerializedName("TRENDING")
-        public String trending;
+        @SerializedName("NEWS_IMAGE")
+        public String newsImage;
     }
 }
