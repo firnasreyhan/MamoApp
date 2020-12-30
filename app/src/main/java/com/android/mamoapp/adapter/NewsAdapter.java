@@ -62,16 +62,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         });
     }
 
-    public void clear() {
-        list.clear();
-        notifyDataSetChanged();
-    }
-
-    public void addAll(ArrayList<NewsResponse.NewsModel> list) {
-        this.list.addAll(list);
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
         return list.size();

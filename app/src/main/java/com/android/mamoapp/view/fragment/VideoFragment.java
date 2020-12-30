@@ -71,19 +71,23 @@ public class VideoFragment extends Fragment {
         swipeRefreshLayoutVideo.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                videoAdapter.clear();
                 shimmerFrameLayoutVideo.startShimmer();
                 shimmerFrameLayoutVideo.setVisibility(View.VISIBLE);
                 recyclerViewVideo.setVisibility(View.GONE);
+                frameLayoutEmptyVideo.setVisibility(View.GONE);
 
                 apiInterface.getVideo().enqueue(new Callback<VideoResponse>() {
                     @Override
                     public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
                         if (response.body().status) {
                             if (!response.body().data.isEmpty()) {
-                                videoAdapter.addAll(response.body().data);
+                                setRecyclerViewVideo(response.body().data);
                                 showNotEmpty();
+                            } else {
+                                showEmpty();
                             }
+                        } else {
+                            showEmpty();
                         }
                     }
 

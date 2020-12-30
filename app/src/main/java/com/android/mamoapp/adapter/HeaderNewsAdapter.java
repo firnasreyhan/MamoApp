@@ -68,16 +68,6 @@ public class HeaderNewsAdapter extends RecyclerView.Adapter<HeaderNewsAdapter.Vi
         return list.size();
     }
 
-    public void clear() {
-        list.clear();
-        notifyDataSetChanged();
-    }
-
-    public void addAll(ArrayList<NewsTrendingResponse.NewsTrendingModel> list) {
-        this.list.addAll(list);
-        notifyDataSetChanged();
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageViewHeaderNews;
         private TextView textViewTitleNews;

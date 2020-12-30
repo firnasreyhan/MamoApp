@@ -117,9 +117,7 @@ public class NewsListActivity extends AppCompatActivity {
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                 if (response.body().status) {
                     if (!response.body().data.isEmpty()) {
-                        newsAdapter.clear();
-                        newsAdapter.addAll(response.body().data);
-
+                        setRecyclerViewNewsList(response.body().data);
                         showNotEmpty();
                     } else {
                         showEmpty();

@@ -116,8 +116,6 @@ public class HomeFragment extends Fragment {
         swipeRefreshLayoutHome.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                headerNewsAdapter.clear();
-                newsAdapter.clear();
                 shimmerFrameLayoutHeaderNews.startShimmer();
                 shimmerFrameLayoutNews.startShimmer();
                 shimmerFrameLayoutHeaderNews.setVisibility(View.VISIBLE);
@@ -132,7 +130,7 @@ public class HomeFragment extends Fragment {
                     public void onResponse(Call<NewsTrendingResponse> call, Response<NewsTrendingResponse> response) {
                         if (response.body().status) {
                             if (!response.body().data.isEmpty()) {
-                                headerNewsAdapter.addAll(response.body().data);
+                                setRecyclerViewHeaderNews(response.body().data);
                                 shimmerFrameLayoutHeaderNews.stopShimmer();
                                 shimmerFrameLayoutHeaderNews.setVisibility(View.GONE);
                                 recyclerViewHeaderNews.setVisibility(View.VISIBLE);
@@ -159,7 +157,7 @@ public class HomeFragment extends Fragment {
                     public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                         if (response.body().status) {
                             if (!response.body().data.isEmpty()) {
-                                newsAdapter.addAll(response.body().data);
+                                setRecyclerViewNews(response.body().data);
                                 shimmerFrameLayoutNews.stopShimmer();
                                 shimmerFrameLayoutNews.setVisibility(View.GONE);
                                 recyclerViewNews.setVisibility(View.VISIBLE);

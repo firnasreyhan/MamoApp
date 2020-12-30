@@ -1,6 +1,8 @@
 package com.android.mamoapp.api;
 
 import com.android.mamoapp.api.reponse.BaseResponse;
+import com.android.mamoapp.api.reponse.SadariDetailResponse;
+import com.android.mamoapp.api.reponse.SadariListResponse;
 import com.android.mamoapp.api.reponse.LoginResponse;
 import com.android.mamoapp.api.reponse.NewsDetailResponse;
 import com.android.mamoapp.api.reponse.NewsResponse;
@@ -99,4 +101,12 @@ public interface ApiInterface {
 
     @GET("sadari/question")
     Call<QuestionResponse> getQuestion();
+
+    @GET("sadari")
+    Call<SadariListResponse> getSadariList();
+
+    @GET("sadari/detail/{idSadari}")
+    Call<SadariDetailResponse> getSadariDetail(
+            @Path("idSadari") String idSadari
+    );
 }

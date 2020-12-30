@@ -14,7 +14,9 @@
         android:theme="@style/ThemeMamoApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.activity.NewsListActivity"/>
+        <activity android:name=".view.activity.SadariDetailActivity"></activity>
+        <activity android:name=".view.activity.DoctorMainActivity" />
+        <activity android:name=".view.activity.NewsListActivity" />
         <activity android:name=".view.activity.VideoDetailActivity" />
         <activity android:name=".view.activity.NewsDetailActivity" />
         <activity android:name=".view.activity.TestResultActivity" />
@@ -22,19 +24,23 @@
         <activity android:name=".view.activity.TestVideoActivity" />
         <activity android:name=".view.activity.SignUpActivity" />
         <activity android:name=".view.activity.SignInActivity" />
-        <activity android:name=".view.activity.MainActivity" />
+        <activity android:name=".view.activity.UserMainActivity" />
         <activity android:name=".view.activity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https"
+
+                <data
                     android:host="ilham.kristomoyo.com"
-                    android:pathPrefix="/news/view"/>
+                    android:pathPrefix="/news/view"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
     </application>

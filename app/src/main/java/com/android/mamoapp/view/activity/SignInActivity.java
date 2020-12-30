@@ -77,9 +77,15 @@ public class SignInActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
 
                                     if (response.body().status) {
-                                        AppPreference.saveUser(v.getContext(), response.body().data);
-                                        startActivity(new Intent(v.getContext(), MainActivity.class));
-                                        finish();
+                                        if (response.body().data.nameRole.equalsIgnoreCase("user") || response.body().data.nameRole.equalsIgnoreCase("dokter")) {
+                                            AppPreference.saveUser(v.getContext(), response.body().data);
+                                            if (response.body().data.nameRole.equalsIgnoreCase("user")) {
+                                                startActivity(new Intent(v.getContext(), UserMainActivity.class));
+                                            } else {
+                                                startActivity(new Intent(v.getContext(), DoctorMainActivity.class));
+                                            }
+                                            finish();
+                                        }
                                     } else {
                                         new AlertDialog.Builder(v.getContext())
                                                 .setTitle("Pesan")

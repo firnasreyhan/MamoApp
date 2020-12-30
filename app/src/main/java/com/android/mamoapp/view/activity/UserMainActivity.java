@@ -18,7 +18,7 @@ import com.android.mamoapp.view.fragment.TestFragment;
 import com.android.mamoapp.view.fragment.VideoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class UserMainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FragmentManager fragmentManager;
     private Fragment fragmentActive, fragmentHome, fragmentVideo, fragmentTest, fragmentProfile;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user_main);
 
         idNews = getIntent().getStringExtra("ID_NEWS");
 

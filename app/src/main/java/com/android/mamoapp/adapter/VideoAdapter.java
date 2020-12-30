@@ -64,16 +64,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         return list.size();
     }
 
-    public void clear() {
-        list.clear();
-        notifyDataSetChanged();
-    }
-
-    public void addAll(ArrayList<VideoResponse.VideoModel> list) {
-        this.list.addAll(list);
-        notifyDataSetChanged();
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageViewVideo;
         private TextView textViewTitle;

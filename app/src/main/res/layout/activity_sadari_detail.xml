@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".view.activity.SadariDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="#FF87AB">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="MamoApp"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </FrameLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center|left"
+                android:text="Biodata"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="14sp"
+                android:textColor="#333333"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="16dp"
+                android:orientation="vertical"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nama"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="9sp"/>
+
+                <TextView
+                    android:id="@+id/textViewNameSadari"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="-"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textColor="#333333"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Email"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/textViewEmailSadari"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="-"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="No. Handphone"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/textViewPhoneSadari"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="-"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Tanggal Lahir"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/textViewDateBirthSadari"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="-"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center|left"
+                android:text="Kondisi"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="14sp"
+                android:textColor="#333333"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="16dp"
+                android:orientation="vertical"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kondisi"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="9sp"/>
+
+                <TextView
+                    android:id="@+id/textViewIsIndicatedSadari"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="-"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Tanggal Terindikasi"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/textViewDateSadari"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="-"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center|left"
+                android:text="Detail Survei"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="14sp"
+                android:textColor="#333333"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSadariDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/materialButtonResponse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:backgroundTint="#FF5D8F"
+                android:fontFamily="@font/montserrat_bold"
+                android:padding="12dp"
+                android:text="Berikan Tanggapan!"
+                android:textAllCaps="false"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
