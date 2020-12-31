@@ -36,6 +36,7 @@ public interface ApiInterface {
             @Field("password") String password,
             @Field("idRole") String idRole,
             @Field("name") String name,
+            @Field("dateBirth") String dateBirth,
             @Field("phone") String phone
     );
 
@@ -103,7 +104,9 @@ public interface ApiInterface {
     Call<QuestionResponse> getQuestion();
 
     @GET("sadari")
-    Call<SadariListResponse> getSadariList();
+    Call<SadariListResponse> getSadariList(
+            @Query("email") String email
+    );
 
     @GET("sadari/detail/{idSadari}")
     Call<SadariDetailResponse> getSadariDetail(

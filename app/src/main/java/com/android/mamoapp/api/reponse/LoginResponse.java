@@ -26,8 +26,5 @@ public class LoginResponse extends BaseResponse {
 
         @SerializedName("DATE_BIRTH")
         public String dateBirth;
-
-        @SerializedName("GENDER")
-        public String gender;
     }
 }

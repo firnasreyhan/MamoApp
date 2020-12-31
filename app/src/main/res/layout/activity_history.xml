@@ -7,13 +7,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
-    tools:context=".view.activity.DoctorMainActivity">
+    tools:context=".view.activity.HistoryActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="#FF87AB">
+        android:background="@color/background">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="MamoApp"
-                android:textColor="@color/white"
+                android:textColor="@color/pink6"
                 android:textSize="18sp" />
 
         </FrameLayout>
@@ -33,7 +33,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayoutSadari"
+        android:id="@+id/swipeRefreshLayoutHistory"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -44,7 +44,7 @@
             android:focusableInTouchMode="true">
 
             <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmerFrameLayoutSadari"
+                android:id="@+id/shimmerFrameLayoutHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
@@ -85,7 +85,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:visibility="gone"
-                android:id="@+id/recyclerViewSadari"
+                android:id="@+id/recyclerViewHistory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingTop="16dp"
@@ -97,7 +97,7 @@
 
             <FrameLayout
                 android:visibility="gone"
-                android:id="@+id/frameLayoutEmptySadari"
+                android:id="@+id/frameLayoutEmptyHistory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

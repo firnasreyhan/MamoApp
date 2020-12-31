@@ -22,11 +22,19 @@ public class TestFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_test, container, false);
 
         MaterialButton materialButtonTestVideo = view.findViewById(R.id.materialButtonTest);
+        MaterialButton materialButtonHistory = view.findViewById(R.id.materialButtonHistory);
 
         materialButtonTestVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(v.getContext(), TestVideoActivity.class));
+            }
+        });
+
+        materialButtonHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

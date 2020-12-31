@@ -120,8 +120,10 @@ public class HomeFragment extends Fragment {
                 shimmerFrameLayoutNews.startShimmer();
                 shimmerFrameLayoutHeaderNews.setVisibility(View.VISIBLE);
                 shimmerFrameLayoutNews.setVisibility(View.VISIBLE);
+                linearLayoutNews.setVisibility(View.VISIBLE);
                 recyclerViewHeaderNews.setVisibility(View.GONE);
                 recyclerViewNews.setVisibility(View.GONE);
+                frameLayoutEmptyNews.setVisibility(View.GONE);
 
                 apiInterface.getNewsTrending(
                         5

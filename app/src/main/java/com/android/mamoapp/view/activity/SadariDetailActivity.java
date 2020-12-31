@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.android.mamoapp.R;
@@ -13,6 +15,7 @@ import com.android.mamoapp.adapter.SadariDetailAdapter;
 import com.android.mamoapp.api.ApiClient;
 import com.android.mamoapp.api.ApiInterface;
 import com.android.mamoapp.api.reponse.SadariDetailResponse;
+import com.google.android.material.button.MaterialButton;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -30,6 +33,7 @@ public class SadariDetailActivity extends AppCompatActivity {
     private TextView textViewNameSadari, textViewEmailSadari, textViewPhoneSadari, textViewDateBirthSadari, textViewIsIndicatedSadari, textViewDateSadari;
     private RecyclerView recyclerViewSadariDetail;
     private SadariDetailAdapter sadariDetailAdapter;
+    private MaterialButton materialButtonResponse;
 
     private String idSadari;
 
@@ -48,6 +52,7 @@ public class SadariDetailActivity extends AppCompatActivity {
         textViewIsIndicatedSadari = findViewById(R.id.textViewIsIndicatedSadari);
         textViewDateSadari = findViewById(R.id.textViewDateSadari);
         recyclerViewSadariDetail = findViewById(R.id.recyclerViewSadariDetail);
+        materialButtonResponse = findViewById(R.id.materialButtonResponse);
 
         apiInterface.getSadariDetail(
                 idSadari
@@ -90,6 +95,13 @@ public class SadariDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SadariDetailResponse> call, Throwable t) {
                 Log.e("getSadariDetail", t.getMessage());
+            }
+        });
+
+        materialButtonResponse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(), SadariResponseActivity.class));
             }
         });
     }

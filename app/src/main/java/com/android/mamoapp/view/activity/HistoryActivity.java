@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.android.mamoapp.R;
+import com.android.mamoapp.adapter.HistoryAdapter;
 import com.android.mamoapp.adapter.SadariAdapter;
 import com.android.mamoapp.api.ApiClient;
 import com.android.mamoapp.api.ApiInterface;
@@ -25,24 +26,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DoctorMainActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
     private ApiInterface apiInterface;
-    private RecyclerView recyclerViewNewsSadari;
-    private ShimmerFrameLayout shimmerFrameLayoutSadari;
-    private FrameLayout frameLayoutEmptySadari;
-    private SwipeRefreshLayout swipeRefreshLayoutSadari;
-    private SadariAdapter sadariAdapter;
+    private SwipeRefreshLayout swipeRefreshLayoutHistory;
+    private ShimmerFrameLayout shimmerFrameLayoutHistory;
+    private FrameLayout frameLayoutEmptyHistory;
+    private RecyclerView recyclerViewHistory;
+    private HistoryAdapter historyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_main);
+        setContentView(R.layout.activity_history);
 
         apiInterface = ApiClient.getClient();
-        recyclerViewNewsSadari = findViewById(R.id.recyclerViewSadari);
-        shimmerFrameLayoutSadari = findViewById(R.id.shimmerFrameLayoutSadari);
-        frameLayoutEmptySadari= findViewById(R.id.frameLayoutEmptySadari);
-        swipeRefreshLayoutSadari= findViewById(R.id.swipeRefreshLayoutSadari);
+        swipeRefreshLayoutHistory = findViewById(R.id.swipeRefreshLayoutHistory);
+        shimmerFrameLayoutHistory = findViewById(R.id.shimmerFrameLayoutHistory);
+        frameLayoutEmptyHistory = findViewById(R.id.frameLayoutEmptyHistory);
+        recyclerViewHistory = findViewById(R.id.recyclerViewHistory);
 
         apiInterface.getSadariList(
                 AppPreference.getUser(this).email
@@ -58,7 +59,7 @@ public class DoctorMainActivity extends AppCompatActivity {
                             }
                         }
                         if (!list.isEmpty()) {
-                            setRecyclerViewNewsSadari(list);
+                            setRecyclerViewHistory(list);
                             showNotEmpty();
                         } else {
                             showEmpty();
@@ -77,16 +78,16 @@ public class DoctorMainActivity extends AppCompatActivity {
             }
         });
 
-        swipeRefreshLayoutSadari.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayoutHistory.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                shimmerFrameLayoutSadari.startShimmer();
-                shimmerFrameLayoutSadari.setVisibility(View.VISIBLE);
-                recyclerViewNewsSadari.setVisibility(View.GONE);
-                frameLayoutEmptySadari.setVisibility(View.GONE);
+                shimmerFrameLayoutHistory.startShimmer();
+                shimmerFrameLayoutHistory.setVisibility(View.VISIBLE);
+                recyclerViewHistory.setVisibility(View.GONE);
+                frameLayoutEmptyHistory.setVisibility(View.GONE);
 
                 apiInterface.getSadariList(
-                        AppPreference.getUser(DoctorMainActivity.this).email
+                        AppPreference.getUser(HistoryActivity.this).email
                 ).enqueue(new Callback<SadariListResponse>() {
                     @Override
                     public void onResponse(Call<SadariListResponse> call, Response<SadariListResponse> response) {
@@ -99,7 +100,7 @@ public class DoctorMainActivity extends AppCompatActivity {
                                     }
                                 }
                                 if (!list.isEmpty()) {
-                                    setRecyclerViewNewsSadari(list);
+                                    setRecyclerViewHistory(list);
                                     showNotEmpty();
                                 } else {
                                     showEmpty();
@@ -119,40 +120,40 @@ public class DoctorMainActivity extends AppCompatActivity {
                 });
                 new Handler().postDelayed(new Runnable() {
                     @Override public void run() {
-                        swipeRefreshLayoutSadari.setRefreshing(false);
+                        swipeRefreshLayoutHistory.setRefreshing(false);
                     }
                 }, 3000);
             }
         });
     }
 
-    public void setRecyclerViewNewsSadari(ArrayList<SadariListResponse.SadariListModel> list) {
-        sadariAdapter = new SadariAdapter(list);
-        recyclerViewNewsSadari.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewNewsSadari.setAdapter(sadariAdapter);
+    public void setRecyclerViewHistory(ArrayList<SadariListResponse.SadariListModel> list) {
+        historyAdapter = new HistoryAdapter(list);
+        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewHistory.setAdapter(historyAdapter);
     }
 
     public void showEmpty() {
-        shimmerFrameLayoutSadari.stopShimmer();
-        shimmerFrameLayoutSadari.setVisibility(View.GONE);
-        frameLayoutEmptySadari.setVisibility(View.VISIBLE);
+        shimmerFrameLayoutHistory.stopShimmer();
+        shimmerFrameLayoutHistory.setVisibility(View.GONE);
+        frameLayoutEmptyHistory.setVisibility(View.VISIBLE);
     }
 
     public void showNotEmpty() {
-        shimmerFrameLayoutSadari.stopShimmer();
-        shimmerFrameLayoutSadari.setVisibility(View.GONE);
-        recyclerViewNewsSadari.setVisibility(View.VISIBLE);
+        shimmerFrameLayoutHistory.stopShimmer();
+        shimmerFrameLayoutHistory.setVisibility(View.GONE);
+        recyclerViewHistory.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        shimmerFrameLayoutSadari.startShimmer();
+        shimmerFrameLayoutHistory.startShimmer();
     }
 
     @Override
     public void onPause() {
-        shimmerFrameLayoutSadari.stopShimmer();
+        shimmerFrameLayoutHistory.stopShimmer();
         super.onPause();
     }
 }

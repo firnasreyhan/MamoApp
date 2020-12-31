@@ -67,6 +67,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/materialButtonHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="45dp"
+            android:backgroundTint="@color/pink3"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Riwayat"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialButtonTest" />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
