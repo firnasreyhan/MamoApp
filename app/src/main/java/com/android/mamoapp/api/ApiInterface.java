@@ -9,6 +9,8 @@ import com.android.mamoapp.api.reponse.NewsResponse;
 import com.android.mamoapp.api.reponse.NewsTrendingResponse;
 import com.android.mamoapp.api.reponse.QuestionResponse;
 import com.android.mamoapp.api.reponse.SadariResponse;
+import com.android.mamoapp.api.reponse.SadariResultDetailResponse;
+import com.android.mamoapp.api.reponse.SadariResultResponse;
 import com.android.mamoapp.api.reponse.VideoDetailResponse;
 import com.android.mamoapp.api.reponse.VideoResponse;
 
@@ -69,11 +71,36 @@ public interface ApiInterface {
             @Field("idNews") String idNews
     );
 
+    @POST("sadari/resultDetail")
+    @FormUrlEncoded
+    Call<SadariResultDetailResponse> postResultDetailSadari(
+            @Field("idSadari") String idSadari,
+            @Field("email") String email,
+            @Field("contentResult") String contentResult,
+            @Field("dateResult") String dateResult
+    );
+
     @PUT("sadari/result")
     @FormUrlEncoded
     Call<BaseResponse> putResultSadari(
             @Field("idSadari") String idSadari,
             @Field("isIndicated") boolean isIndicated
+    );
+
+    @PUT("user/profile")
+    @FormUrlEncoded
+    Call<BaseResponse> putProfile(
+            @Field("email") String email,
+            @Field("name") String name,
+            @Field("dateBirth") String dateBirth,
+            @Field("phone") String phone
+    );
+
+    @PUT("user/password")
+    @FormUrlEncoded
+    Call<BaseResponse> putPassword(
+            @Field("email") String email,
+            @Field("password") String password
     );
 
     @GET("news")
@@ -110,6 +137,11 @@ public interface ApiInterface {
 
     @GET("sadari/detail/{idSadari}")
     Call<SadariDetailResponse> getSadariDetail(
+            @Path("idSadari") String idSadari
+    );
+
+    @GET("sadari/resultDetail/{idSadari}")
+    Call<SadariResultResponse> getSadariResult(
             @Path("idSadari") String idSadari
     );
 }

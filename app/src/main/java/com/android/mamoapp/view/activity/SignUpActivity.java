@@ -59,7 +59,6 @@ public class SignUpActivity extends AppCompatActivity {
         textViewSignIn = findViewById(R.id.textViewSignIn);
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 // TODO Auto-generated method stub
@@ -88,6 +87,7 @@ public class SignUpActivity extends AppCompatActivity {
                 boolean cek4 = true;
                 boolean cek5 = true;
                 boolean cek6 = true;
+                boolean cek7 = true;
 
                 if (textInputEditTextName.getText().toString().isEmpty()){
                     textInputEditTextName.setError("Mohon isi data berikut!");
@@ -100,6 +100,10 @@ public class SignUpActivity extends AppCompatActivity {
                 if (textInputEditTextPhone.getText().toString().isEmpty()){
                     textInputEditTextPhone.setError("Mohon isi data berikut!");
                     cek3 = false;
+                }
+                if (textInputEditTextDateBirth.getText().toString().isEmpty()){
+                    textInputEditTextDateBirth.setError("Mohon isi data berikut!");
+                    cek7 = false;
                 }
                 if (textInputEditTextPassword.getText().toString().isEmpty()){
                     textInputEditTextPassword.setError("Mohon isi data berikut!");
@@ -116,7 +120,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 }
 
-                if (cek1 && cek2 && cek3 && cek4 && cek5 && cek6) {
+                if (cek1 && cek2 && cek3 && cek4 && cek5 && cek6 && cek7) {
                     progressDialog.setMessage("Mohon tunggu sebentar...");
                     progressDialog.setCancelable(false);
                     progressDialog.show();

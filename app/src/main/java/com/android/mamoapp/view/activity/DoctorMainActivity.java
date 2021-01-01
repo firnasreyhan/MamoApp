@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.android.mamoapp.api.ApiInterface;
 import com.android.mamoapp.api.reponse.SadariListResponse;
 import com.android.mamoapp.preference.AppPreference;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,7 @@ public class DoctorMainActivity extends AppCompatActivity {
     private FrameLayout frameLayoutEmptySadari;
     private SwipeRefreshLayout swipeRefreshLayoutSadari;
     private SadariAdapter sadariAdapter;
+    private MaterialButton materialButtonLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,37 +46,17 @@ public class DoctorMainActivity extends AppCompatActivity {
         shimmerFrameLayoutSadari = findViewById(R.id.shimmerFrameLayoutSadari);
         frameLayoutEmptySadari= findViewById(R.id.frameLayoutEmptySadari);
         swipeRefreshLayoutSadari= findViewById(R.id.swipeRefreshLayoutSadari);
+        materialButtonLogout = findViewById(R.id.materialButtonLogout);
 
-        apiInterface.getSadariList(
-                AppPreference.getUser(this).email
-        ).enqueue(new Callback<SadariListResponse>() {
-            @Override
-            public void onResponse(Call<SadariListResponse> call, Response<SadariListResponse> response) {
-                if (response.body().status) {
-                    if (!response.body().data.isEmpty()) {
-                        ArrayList<SadariListResponse.SadariListModel> list = new ArrayList<>();
-                        for (SadariListResponse.SadariListModel model: response.body().data) {
-                            if (model.isIndicated.equalsIgnoreCase("t")) {
-                                list.add(model);
-                            }
-                        }
-                        if (!list.isEmpty()) {
-                            setRecyclerViewNewsSadari(list);
-                            showNotEmpty();
-                        } else {
-                            showEmpty();
-                        }
-                    } else {
-                        showEmpty();
-                    }
-                } else {
-                    showEmpty();
-                }
-            }
+        getData();
 
+        materialButtonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(Call<SadariListResponse> call, Throwable t) {
-                Log.e("getListSadari", t.getMessage());
+            public void onClick(View v) {
+                AppPreference.removeUser(v.getContext());
+                Intent intent = new Intent(v.getContext(), SignInActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
 
@@ -92,18 +75,8 @@ public class DoctorMainActivity extends AppCompatActivity {
                     public void onResponse(Call<SadariListResponse> call, Response<SadariListResponse> response) {
                         if (response.body().status) {
                             if (!response.body().data.isEmpty()) {
-                                ArrayList<SadariListResponse.SadariListModel> list = new ArrayList<>();
-                                for (SadariListResponse.SadariListModel model: response.body().data) {
-                                    if (model.isIndicated.equalsIgnoreCase("t")) {
-                                        list.add(model);
-                                    }
-                                }
-                                if (!list.isEmpty()) {
-                                    setRecyclerViewNewsSadari(list);
-                                    showNotEmpty();
-                                } else {
-                                    showEmpty();
-                                }
+                                setRecyclerViewNewsSadari(response.body().data);
+                                showNotEmpty();
                             } else {
                                 showEmpty();
                             }
@@ -122,6 +95,31 @@ public class DoctorMainActivity extends AppCompatActivity {
                         swipeRefreshLayoutSadari.setRefreshing(false);
                     }
                 }, 3000);
+            }
+        });
+    }
+
+    public void getData() {
+        apiInterface.getSadariList(
+                AppPreference.getUser(this).email
+        ).enqueue(new Callback<SadariListResponse>() {
+            @Override
+            public void onResponse(Call<SadariListResponse> call, Response<SadariListResponse> response) {
+                if (response.body().status) {
+                    if (!response.body().data.isEmpty()) {
+                        setRecyclerViewNewsSadari(response.body().data);
+                        showNotEmpty();
+                    } else {
+                        showEmpty();
+                    }
+                } else {
+                    showEmpty();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SadariListResponse> call, Throwable t) {
+                Log.e("getListSadari", t.getMessage());
             }
         });
     }
@@ -154,5 +152,15 @@ public class DoctorMainActivity extends AppCompatActivity {
     public void onPause() {
         shimmerFrameLayoutSadari.stopShimmer();
         super.onPause();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        shimmerFrameLayoutSadari.startShimmer();
+        shimmerFrameLayoutSadari.setVisibility(View.VISIBLE);
+        recyclerViewNewsSadari.setVisibility(View.GONE);
+        frameLayoutEmptySadari.setVisibility(View.GONE);
+        getData();
     }
 }

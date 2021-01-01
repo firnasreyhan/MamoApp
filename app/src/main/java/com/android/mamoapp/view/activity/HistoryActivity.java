@@ -37,6 +37,7 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.ThemeWhiteMamoApp);
         setContentView(R.layout.activity_history);
 
         apiInterface = ApiClient.getClient();
@@ -52,18 +53,8 @@ public class HistoryActivity extends AppCompatActivity {
             public void onResponse(Call<SadariListResponse> call, Response<SadariListResponse> response) {
                 if (response.body().status) {
                     if (!response.body().data.isEmpty()) {
-                        ArrayList<SadariListResponse.SadariListModel> list = new ArrayList<>();
-                        for (SadariListResponse.SadariListModel model: response.body().data) {
-                            if (model.isIndicated.equalsIgnoreCase("t")) {
-                                list.add(model);
-                            }
-                        }
-                        if (!list.isEmpty()) {
-                            setRecyclerViewHistory(list);
-                            showNotEmpty();
-                        } else {
-                            showEmpty();
-                        }
+                        setRecyclerViewHistory(response.body().data);
+                        showNotEmpty();
                     } else {
                         showEmpty();
                     }
@@ -93,18 +84,8 @@ public class HistoryActivity extends AppCompatActivity {
                     public void onResponse(Call<SadariListResponse> call, Response<SadariListResponse> response) {
                         if (response.body().status) {
                             if (!response.body().data.isEmpty()) {
-                                ArrayList<SadariListResponse.SadariListModel> list = new ArrayList<>();
-                                for (SadariListResponse.SadariListModel model: response.body().data) {
-                                    if (model.isIndicated.equalsIgnoreCase("t")) {
-                                        list.add(model);
-                                    }
-                                }
-                                if (!list.isEmpty()) {
-                                    setRecyclerViewHistory(list);
-                                    showNotEmpty();
-                                } else {
-                                    showEmpty();
-                                }
+                                setRecyclerViewHistory(response.body().data);
+                                showNotEmpty();
                             } else {
                                 showEmpty();
                             }

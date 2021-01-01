@@ -28,8 +28,6 @@ import retrofit2.Response;
 
 public class TestResultActivity extends AppCompatActivity {
     private ApiInterface apiInterface;
-    private Date date;
-    private SimpleDateFormat simpleDateFormat;
     private ImageView imageViewPositive, imageViewNegative;
     private MaterialButton materialButtonBack;
 
@@ -44,8 +42,8 @@ public class TestResultActivity extends AppCompatActivity {
         setTheme(R.style.ThemeWhiteMamoApp);
         setContentView(R.layout.activity_test_result);
 
-        date = Calendar.getInstance().getTime();
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
         apiInterface = ApiClient.getClient();
         questionModelArrayList = (ArrayList<QuestionResponse.QuestionModel>) getIntent().getSerializableExtra("RESULT");
 

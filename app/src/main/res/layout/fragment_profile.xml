@@ -3,112 +3,168 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".view.fragment.ProfileFragment">
+    
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="-90dp"
+        app:cardBackgroundColor="@color/pink5"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="0dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_gravity="center|left"
-        android:text="Profil"
-        android:fontFamily="@font/montserrat_bold"
-        android:textSize="14sp"
-        android:textColor="#333333"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:paddingBottom="26dp"
+            android:paddingLeft="38dp"
+            android:paddingRight="38dp"
+            android:orientation="horizontal">
 
-    <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@mipmap/ic_new_launcher"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textViewProfileName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Name"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/textViewProfilePhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="No. Handphone"
+                        android:textColor="#82333333"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButtonHistory"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="16dp"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="left|center"
+        android:paddingLeft="38dp"
+        android:paddingTop="20dp"
+        android:paddingRight="38dp"
+        android:paddingBottom="20dp"
+        android:text="Hasil Tes"
+        android:textAllCaps="false"
+        android:textColor="#333333"
+        android:textSize="12sp"
+        app:backgroundTint="@color/background"
+        app:elevation="0dp"
+        app:icon="@drawable/ic_history_test"
+        app:iconGravity="start"
+        app:iconPadding="17dp"
+        app:iconTint="#FF5D8F"
+        app:strokeColor="@color/background"
+        app:strokeWidth="0dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Nama"
-            android:fontFamily="@font/montserrat_regular"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="9sp"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButtonProfileEdit"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="left|center"
+        android:paddingLeft="38dp"
+        android:paddingTop="20dp"
+        android:paddingRight="38dp"
+        android:paddingBottom="20dp"
+        android:text="Ubah Profil"
+        android:textAllCaps="false"
+        android:textColor="#333333"
+        android:textSize="12sp"
+        app:backgroundTint="@color/background"
+        app:elevation="0dp"
+        app:icon="@drawable/ic_edit"
+        app:iconGravity="start"
+        app:iconPadding="17dp"
+        app:iconTint="#FF5D8F"
+        app:strokeColor="@color/background"
+        app:strokeWidth="0dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="-"
-            android:textColor="#333333"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="Email"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="9sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="-"
-            android:textColor="#333333"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="No. Handphone"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="9sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="-"
-            android:textColor="#333333"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="Tanggal Lahir"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="9sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="-"
-            android:textColor="#333333"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButtonPasswordEdit"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="left|center"
+        android:paddingLeft="38dp"
+        android:paddingTop="20dp"
+        android:paddingRight="38dp"
+        android:paddingBottom="20dp"
+        android:text="Ubah Password"
+        android:textAllCaps="false"
+        android:textColor="#333333"
+        android:textSize="12sp"
+        app:backgroundTint="@color/background"
+        app:elevation="0dp"
+        app:icon="@drawable/ic_password"
+        app:iconGravity="start"
+        app:iconPadding="17dp"
+        app:iconTint="#FF5D8F"
+        app:strokeColor="@color/background"
+        app:strokeWidth="0dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/materialButtonLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/pink6"
+        app:backgroundTint="@color/background"
+        app:strokeWidth="1dp"
+        app:strokeColor="#DADADA"
+        app:elevation="0dp"
+        app:icon="@drawable/ic_sign_out"
+        app:iconTint="#BC283B"
+        app:iconGravity="start"
+        app:iconPadding="17dp"
+        android:gravity="left|center"
         android:fontFamily="@font/montserrat_bold"
-        android:padding="12dp"
+        android:textColor="#BC283B"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:paddingLeft="38dp"
+        android:paddingRight="38dp"
         android:text="Keluar"
         android:textAllCaps="false"
-        android:textSize="14sp" />
+        android:textSize="12sp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
 </LinearLayout>

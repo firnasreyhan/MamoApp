@@ -1,5 +1,6 @@
 package com.android.mamoapp.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.mamoapp.R;
 import com.android.mamoapp.api.reponse.SadariListResponse;
+import com.android.mamoapp.view.activity.SadariDetailUserActivity;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -55,6 +57,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), SadariDetailUserActivity.class);
+                intent.putExtra("ID_SADARI", list.get(position).idSadari);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -40,6 +40,7 @@ public class SadariDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.ThemeWhiteMamoApp);
         setContentView(R.layout.activity_sadari_detail);
 
         idSadari = getIntent().getStringExtra("ID_SADARI");
@@ -54,6 +55,19 @@ public class SadariDetailActivity extends AppCompatActivity {
         recyclerViewSadariDetail = findViewById(R.id.recyclerViewSadariDetail);
         materialButtonResponse = findViewById(R.id.materialButtonResponse);
 
+        getData();
+
+        materialButtonResponse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), SadariResponseActivity.class);
+                intent.putExtra("ID_SADARI", idSadari);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void getData() {
         apiInterface.getSadariDetail(
                 idSadari
         ).enqueue(new Callback<SadariDetailResponse>() {
@@ -66,7 +80,6 @@ public class SadariDetailActivity extends AppCompatActivity {
                             textViewNameSadari.setText(dataSadari.name);
                             textViewEmailSadari.setText(dataSadari.email);
                             textViewPhoneSadari.setText(dataSadari.phone);
-                            textViewDateBirthSadari.setText(dataSadari.dateBirth);
                             if (dataSadari.isIndicated.equalsIgnoreCase("t")) {
                                 textViewIsIndicatedSadari.setText("Terindikasi Mengidap Kanker");
                                 textViewIsIndicatedSadari.setBackgroundResource(R.drawable.label_red);
@@ -74,12 +87,20 @@ public class SadariDetailActivity extends AppCompatActivity {
                                 textViewIsIndicatedSadari.setText("Tidak Terindikasi Mengidap Kanker");
                                 textViewIsIndicatedSadari.setBackgroundResource(R.drawable.label_green);
                             }
+                            if (dataSadari.isChecked.equalsIgnoreCase("t")) {
+                                materialButtonResponse.setVisibility(View.GONE);
+                            } else {
+                                materialButtonResponse.setVisibility(View.VISIBLE);
+                            }
                             String myFormat = "dd MMMM yyyy"; //In which you need put here
                             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("id", "ID"));
                             DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
+                            DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                             try {
                                 Date date = format.parse(dataSadari.dateSadari);
+                                Date date1 = format1.parse(dataSadari.dateBirth);
                                 textViewDateSadari.setText(sdf.format(date));
+                                textViewDateBirthSadari.setText(sdf.format(date1));
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -97,18 +118,17 @@ public class SadariDetailActivity extends AppCompatActivity {
                 Log.e("getSadariDetail", t.getMessage());
             }
         });
-
-        materialButtonResponse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(v.getContext(), SadariResponseActivity.class));
-            }
-        });
     }
 
     public void setRecyclerViewSadariDetail(ArrayList<SadariDetailResponse.SadariDetail.DataSadariDetail> list) {
         sadariDetailAdapter = new SadariDetailAdapter(list);
         recyclerViewSadariDetail.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewSadariDetail.setAdapter(sadariDetailAdapter);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getData();
     }
 }

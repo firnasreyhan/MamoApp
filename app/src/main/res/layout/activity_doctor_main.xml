@@ -28,6 +28,21 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/materialButtonLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                app:icon="@drawable/ic_sign_out"
+                app:iconTint="@color/white"
+                android:text="Keluar"
+                android:textAllCaps="false"
+                android:fontFamily="@font/montserrat_medium"
+                android:textSize="12sp"
+                app:iconGravity="textStart"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textColor="@color/white"/>
+
         </FrameLayout>
 
     </androidx.appcompat.widget.Toolbar>

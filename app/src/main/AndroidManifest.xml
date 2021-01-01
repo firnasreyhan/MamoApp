@@ -14,7 +14,9 @@
         android:theme="@style/ThemeMamoApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.activity.SadariResponseActivity"></activity>
+        <activity android:name=".view.activity.UpdatePasswordUserActivity"></activity>
+        <activity android:name=".view.activity.UpdateProfileUserActivity" />
+        <activity android:name=".view.activity.SadariResponseActivity" />
         <activity android:name=".view.activity.SadariDetailUserActivity" />
         <activity android:name=".view.activity.HistoryActivity" />
         <activity android:name=".view.activity.SadariDetailActivity" />
