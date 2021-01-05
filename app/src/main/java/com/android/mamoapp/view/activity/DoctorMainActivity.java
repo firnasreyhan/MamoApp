@@ -20,6 +20,7 @@ import com.android.mamoapp.api.reponse.SadariListResponse;
 import com.android.mamoapp.preference.AppPreference;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -53,6 +54,8 @@ public class DoctorMainActivity extends AppCompatActivity {
         materialButtonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String userKey = AppPreference.getUser(v.getContext()).email.replaceAll("[-+.^:,]","");
+                FirebaseDatabase.getInstance().getReference("MamoApp").child("Token").child(userKey).removeValue();
                 AppPreference.removeUser(v.getContext());
                 Intent intent = new Intent(v.getContext(), SignInActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

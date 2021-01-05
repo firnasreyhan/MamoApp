@@ -17,14 +17,20 @@ import com.android.mamoapp.api.ApiClient;
 import com.android.mamoapp.api.ApiInterface;
 import com.android.mamoapp.api.reponse.LoginResponse;
 import com.android.mamoapp.preference.AppPreference;
+import com.android.mamoapp.service.Token;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase firebaseDatabase;
     private ApiInterface apiInterface;
     private ProgressDialog progressDialog;
 
@@ -39,6 +45,8 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         progressDialog = new ProgressDialog(this);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("MamoApp");
         apiInterface = ApiClient.getClient();
         textInputEditTextEmail = findViewById(R.id.textInputEditTextEmail);
         textInputEditTextPassword = findViewById(R.id.textInputEditTextPassword);
@@ -78,7 +86,9 @@ public class SignInActivity extends AppCompatActivity {
 
                                     if (response.body().status) {
                                         if (response.body().data.nameRole.equalsIgnoreCase("user") || response.body().data.nameRole.equalsIgnoreCase("dokter")) {
-                                            AppPreference.saveUser(v.getContext(), response.body().data);
+                                            saveUser(response.body().data);
+                                            String refreshToken = FirebaseInstanceId.getInstance().getToken();
+                                            updateToken(refreshToken);
                                             if (response.body().data.nameRole.equalsIgnoreCase("user")) {
                                                 startActivity(new Intent(v.getContext(), UserMainActivity.class));
                                             } else {
@@ -118,5 +128,24 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(new Intent(v.getContext(), SignUpActivity.class));
             }
         });
+    }
+
+    public void saveUser(LoginResponse.LoginModel loginModel) {
+        LoginResponse.LoginModel model = new LoginResponse.LoginModel();
+        model.email = loginModel.email;
+        model.name = loginModel.name;
+        model.profilpicUser = loginModel.profilpicUser;
+        model.nameRole = loginModel.nameRole;
+        model.phone = loginModel.phone;
+        model.dateBirth = loginModel.dateBirth;
+        model.password = textInputEditTextPassword.getText().toString();
+        AppPreference.saveUser(this, model);
+    }
+
+    private void updateToken(String refreshToken) {
+        String userKey = AppPreference.getUser(getApplicationContext()).email.replaceAll("[-+.^:,]","");
+        Log.e("userKey", userKey);
+        Token token = new Token(refreshToken);
+        FirebaseDatabase.getInstance().getReference("MamoApp").child("Token").child(userKey).setValue(token);
     }
 }

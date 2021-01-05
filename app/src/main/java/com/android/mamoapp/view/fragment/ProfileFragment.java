@@ -1,6 +1,7 @@
 package com.android.mamoapp.view.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,9 +18,16 @@ import com.android.mamoapp.view.activity.HistoryActivity;
 import com.android.mamoapp.view.activity.SignInActivity;
 import com.android.mamoapp.view.activity.UpdatePasswordUserActivity;
 import com.android.mamoapp.view.activity.UpdateProfileUserActivity;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ProfileFragment extends Fragment {
+    private ShapeableImageView shapeableImageViewAvatar;
     private MaterialButton materialButtonLogout, materialButtonHistory, materialButtonProfileEdit, materialButtonPasswordEdit;
     private TextView textViewProfileName, textViewProfilePhone;
 
@@ -28,6 +36,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        shapeableImageViewAvatar = view.findViewById(R.id.shapeableImageViewAvatar);
         materialButtonLogout = view.findViewById(R.id.materialButtonLogout);
         materialButtonHistory = view.findViewById(R.id.materialButtonHistory);
         materialButtonProfileEdit = view.findViewById(R.id.materialButtonProfileEdit);
@@ -37,6 +46,18 @@ public class ProfileFragment extends Fragment {
 
         textViewProfileName.setText(AppPreference.getUser(getContext()).name);
         textViewProfilePhone.setText(AppPreference.getUser(getContext()).phone);
+
+        Glide.with(getContext())
+                .load(AppPreference.getUser(getContext()).profilpicUser)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .skipMemoryCache(true)
+                .dontAnimate()
+                .dontTransform()
+                .priority(Priority.IMMEDIATE)
+                .encodeFormat(Bitmap.CompressFormat.PNG)
+                .format(DecodeFormat.DEFAULT)
+                .placeholder(R.drawable.img_default_video)
+                .into(shapeableImageViewAvatar);
 
         materialButtonHistory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +83,8 @@ public class ProfileFragment extends Fragment {
         materialButtonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String userKey = AppPreference.getUser(v.getContext()).email.replaceAll("[-+.^:,]","");
+                FirebaseDatabase.getInstance().getReference("MamoApp").child("Token").child(userKey).removeValue();
                 AppPreference.removeUser(v.getContext());
                 Intent intent = new Intent(getContext(), SignInActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -75,6 +98,17 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Glide.with(getContext())
+                .load(AppPreference.getUser(getContext()).profilpicUser)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .skipMemoryCache(true)
+                .dontAnimate()
+                .dontTransform()
+                .priority(Priority.IMMEDIATE)
+                .encodeFormat(Bitmap.CompressFormat.PNG)
+                .format(DecodeFormat.DEFAULT)
+                .placeholder(R.drawable.img_icon)
+                .into(shapeableImageViewAvatar);
         textViewProfileName.setText(AppPreference.getUser(getContext()).name);
         textViewProfilePhone.setText(AppPreference.getUser(getContext()).phone);
     }

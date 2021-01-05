@@ -26,5 +26,7 @@ public class LoginResponse extends BaseResponse {
 
         @SerializedName("DATE_BIRTH")
         public String dateBirth;
+
+        public String password;
     }
 }

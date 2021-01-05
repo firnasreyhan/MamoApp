@@ -1,7 +1,9 @@
 package com.android.mamoapp.api;
 
+import com.android.mamoapp.api.reponse.AvatarResponse;
 import com.android.mamoapp.api.reponse.BaseResponse;
 import com.android.mamoapp.api.reponse.SadariDetailResponse;
+import com.android.mamoapp.api.reponse.SadariImageResponse;
 import com.android.mamoapp.api.reponse.SadariListResponse;
 import com.android.mamoapp.api.reponse.LoginResponse;
 import com.android.mamoapp.api.reponse.NewsDetailResponse;
@@ -14,12 +16,16 @@ import com.android.mamoapp.api.reponse.SadariResultResponse;
 import com.android.mamoapp.api.reponse.VideoDetailResponse;
 import com.android.mamoapp.api.reponse.VideoResponse;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -78,6 +84,21 @@ public interface ApiInterface {
             @Field("email") String email,
             @Field("contentResult") String contentResult,
             @Field("dateResult") String dateResult
+    );
+
+    @Multipart
+    @POST("sadari/image")
+    Call<SadariImageResponse> postImageSadari(
+            @Part("idSadariResult") RequestBody idSadariResult,
+            @Part MultipartBody.Part img1,
+            @Part MultipartBody.Part img2
+    );
+
+    @Multipart
+    @POST("user/avatar")
+    Call<AvatarResponse> postAvatar(
+            @Part("email") RequestBody email,
+            @Part MultipartBody.Part avatar
     );
 
     @PUT("sadari/result")

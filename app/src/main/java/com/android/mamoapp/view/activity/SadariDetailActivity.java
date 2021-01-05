@@ -62,6 +62,7 @@ public class SadariDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), SadariResponseActivity.class);
                 intent.putExtra("ID_SADARI", idSadari);
+                intent.putExtra("EMAIL", textViewEmailSadari.getText().toString());
                 startActivity(intent);
             }
         });

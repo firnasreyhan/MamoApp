@@ -214,6 +214,7 @@
                         android:textSize="9sp" />
 
                     <ImageView
+                        android:id="@+id/imageViewResponse1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -230,6 +231,7 @@
                         android:textSize="9sp" />
 
                     <ImageView
+                        android:id="@+id/imageViewResponse2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"

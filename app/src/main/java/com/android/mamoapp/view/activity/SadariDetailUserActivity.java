@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +18,10 @@ import com.android.mamoapp.api.ApiClient;
 import com.android.mamoapp.api.ApiInterface;
 import com.android.mamoapp.api.reponse.SadariDetailResponse;
 import com.android.mamoapp.api.reponse.SadariResultResponse;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,6 +37,7 @@ import retrofit2.Response;
 public class SadariDetailUserActivity extends AppCompatActivity {
     private ApiInterface apiInterface;
     private RecyclerView recyclerViewSadariDetail;
+    private ImageView imageViewResponse1, imageViewResponse2;
     private TextView textViewSadariIsIndicated, textViewSadariSurveyDate, textViewSadariIsChecked, textViewSadariDoctorName, textViewSadariCheckDate, textViewSadariResponseText;
     private LinearLayout linearLayoutIsIndicated;
     private SadariDetailAdapter sadariDetailAdapter;
@@ -47,6 +54,8 @@ public class SadariDetailUserActivity extends AppCompatActivity {
 
         apiInterface = ApiClient.getClient();
         recyclerViewSadariDetail = findViewById(R.id.recyclerViewSadariDetail);
+        imageViewResponse1 = findViewById(R.id.imageViewResponse1);
+        imageViewResponse2 = findViewById(R.id.imageViewResponse2);
         textViewSadariIsIndicated = findViewById(R.id.textViewSadariIsIndicated);
         textViewSadariSurveyDate = findViewById(R.id.textViewSadariSurveyDate);
         textViewSadariIsChecked = findViewById(R.id.textViewSadariIsChecked);
@@ -125,6 +134,30 @@ public class SadariDetailUserActivity extends AppCompatActivity {
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
+                        Glide.with(SadariDetailUserActivity.this)
+                                .load(response.body().data.img1SadariResult)
+                                //.load(R.drawable.img_default_video)
+                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                .skipMemoryCache(true)
+                                .dontAnimate()
+                                .dontTransform()
+                                .priority(Priority.IMMEDIATE)
+                                .encodeFormat(Bitmap.CompressFormat.PNG)
+                                .format(DecodeFormat.DEFAULT)
+                                .placeholder(R.drawable.img_default_video)
+                                .into(imageViewResponse1);
+                        Glide.with(SadariDetailUserActivity.this)
+                                .load(response.body().data.img2SadariResult)
+                                //.load(R.drawable.img_default_video)
+                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                .skipMemoryCache(true)
+                                .dontAnimate()
+                                .dontTransform()
+                                .priority(Priority.IMMEDIATE)
+                                .encodeFormat(Bitmap.CompressFormat.PNG)
+                                .format(DecodeFormat.DEFAULT)
+                                .placeholder(R.drawable.img_default_video)
+                                .into(imageViewResponse2);
                         textViewSadariResponseText.setText(response.body().data.contentSadariResult);
                     }
                 }

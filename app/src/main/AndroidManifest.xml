@@ -14,7 +14,23 @@
         android:theme="@style/ThemeMamoApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.activity.UpdatePasswordUserActivity"></activity>
+        <service
+            android:name=".service.MyFireBaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".service.MyFirebaseIdService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <activity android:name=".view.activity.UpdatePasswordUserActivity"/>
         <activity android:name=".view.activity.UpdateProfileUserActivity" />
         <activity android:name=".view.activity.SadariResponseActivity" />
         <activity android:name=".view.activity.SadariDetailUserActivity" />
@@ -48,6 +64,10 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>
