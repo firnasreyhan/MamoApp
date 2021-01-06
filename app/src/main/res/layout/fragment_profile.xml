@@ -146,6 +146,30 @@
         app:strokeWidth="0dp" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButtonPrivacyPolicy"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="left|center"
+        android:paddingLeft="38dp"
+        android:paddingTop="20dp"
+        android:paddingRight="38dp"
+        android:paddingBottom="20dp"
+        android:text="Kebijakan Privasi"
+        android:textAllCaps="false"
+        android:textColor="#333333"
+        android:textSize="12sp"
+        app:backgroundTint="@color/background"
+        app:elevation="0dp"
+        app:icon="@drawable/ic_privacy_policy"
+        app:iconGravity="start"
+        app:iconPadding="17dp"
+        app:iconTint="#FF5D8F"
+        app:strokeColor="@color/background"
+        app:strokeWidth="0dp" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/materialButtonLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

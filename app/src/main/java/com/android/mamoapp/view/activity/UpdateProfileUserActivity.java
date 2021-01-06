@@ -167,23 +167,26 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
                     ).enqueue(new Callback<BaseResponse>() {
                         @Override
                         public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                            if (response.body().status) {
-                                new AlertDialog.Builder(v.getContext())
-                                        .setCancelable(false)
-                                        .setTitle("Pesan")
-                                        .setMessage(response.body().message)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                finish();
-                                            }
-                                        })
-                                        .create()
-                                        .show();
+                            if (response.body() != null) {
+                                if (response.body().status) {
+                                    new AlertDialog.Builder(v.getContext())
+                                            .setCancelable(false)
+                                            .setTitle("Pesan")
+                                            .setMessage(response.body().message)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    postLogin();
+                                                    dialog.dismiss();
+                                                    finish();
+                                                }
+                                            })
+                                            .create()
+                                            .show();
+                                }
+                            } else {
+                                alertErrorServer();
                             }
-
-                            postLogin();
                         }
 
                         @Override
@@ -204,7 +207,9 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
         ).enqueue(new Callback<AvatarResponse>() {
             @Override
             public void onResponse(Call<AvatarResponse> call, Response<AvatarResponse> response) {
-                Log.e("postAvatar", response.body().avatar.message);
+                if (response.body() != null) {
+                    Log.e("postAvatar", response.body().avatar.message);
+                }
             }
 
             @Override
@@ -295,6 +300,21 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(UpdateProfileUserActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override

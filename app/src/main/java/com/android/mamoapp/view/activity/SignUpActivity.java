@@ -139,27 +139,34 @@ public class SignUpActivity extends AppCompatActivity {
                             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                                 if (progressDialog.isShowing()) {
                                     progressDialog.dismiss();
-
-                                    new AlertDialog.Builder(v.getContext())
-                                            .setTitle("Pesan")
-                                            .setMessage(response.body().message)
-                                            .setCancelable(false)
-                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    if (response.body().status) {
-                                                        finish();
-                                                    } else {
-                                                        dialog.dismiss();
+                                    if (response.body() != null) {
+                                        new AlertDialog.Builder(v.getContext())
+                                                .setTitle("Pesan")
+                                                .setMessage(response.body().message)
+                                                .setCancelable(false)
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        if (response.body().status) {
+                                                            finish();
+                                                        } else {
+                                                            dialog.dismiss();
+                                                        }
                                                     }
-                                                }
-                                            })
-                                            .show();
+                                                })
+                                                .show();
+                                    } else {
+                                        alertErrorServer();
+                                    }
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<BaseResponse> call, Throwable t) {
+                                if (progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
+                                alertErrorServer();
                                 Log.e("register", t.getMessage());
                             }
                         });
@@ -174,6 +181,20 @@ public class SignUpActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(SignUpActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     private void updateText() {

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,18 +49,23 @@ public class TestActivity extends AppCompatActivity {
         apiInterface.getQuestion().enqueue(new Callback<QuestionResponse>() {
             @Override
             public void onResponse(Call<QuestionResponse> call, Response<QuestionResponse> response) {
-                if (response.body().status) {
-                    if (!response.body().data.isEmpty()) {
-                        questionModelArrayList.addAll(response.body().data);
-                        //questionModelArrayList.get(position).isActive = true;
-                        textViewQuestion.setText(questionModelArrayList.get(position).contentQuestion);
-                        setRecyclerViewQuestion(questionModelArrayList);
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        if (!response.body().data.isEmpty()) {
+                            questionModelArrayList.addAll(response.body().data);
+                            //questionModelArrayList.get(position).isActive = true;
+                            textViewQuestion.setText(questionModelArrayList.get(position).contentQuestion);
+                            setRecyclerViewQuestion(questionModelArrayList);
+                        }
                     }
+                } else {
+                    alertErrorServer();
                 }
             }
 
             @Override
             public void onFailure(Call<QuestionResponse> call, Throwable t) {
+                alertErrorServer();
                 Log.e("question", t.getMessage());
             }
         });
@@ -90,6 +97,20 @@ public class TestActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(TestActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     public void setRecyclerViewQuestion(ArrayList<QuestionResponse.QuestionModel> list) {

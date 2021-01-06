@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,48 +76,55 @@ public class SadariDetailActivity extends AppCompatActivity {
         ).enqueue(new Callback<SadariDetailResponse>() {
             @Override
             public void onResponse(Call<SadariDetailResponse> call, Response<SadariDetailResponse> response) {
-                if (response.body().status) {
-                    if (response.body().data != null) {
-                        if (!response.body().data.dataSadari.isEmpty()) {
-                            SadariDetailResponse.SadariDetail.DataSadari dataSadari = response.body().data.dataSadari.get(0);
-                            textViewNameSadari.setText(dataSadari.name);
-                            textViewEmailSadari.setText(dataSadari.email);
-                            textViewPhoneSadari.setText(dataSadari.phone);
-                            if (dataSadari.isIndicated.equalsIgnoreCase("t")) {
-                                textViewIsIndicatedSadari.setText("Terindikasi Mengidap Kanker");
-                                textViewIsIndicatedSadari.setBackgroundResource(R.drawable.label_red);
-                            } else {
-                                textViewIsIndicatedSadari.setText("Tidak Terindikasi Mengidap Kanker");
-                                textViewIsIndicatedSadari.setBackgroundResource(R.drawable.label_green);
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        if (response.body().data != null) {
+                            if (!response.body().data.dataSadari.isEmpty()) {
+                                SadariDetailResponse.SadariDetail.DataSadari dataSadari = response.body().data.dataSadari.get(0);
+                                textViewNameSadari.setText(dataSadari.name);
+                                textViewEmailSadari.setText(dataSadari.email);
+                                textViewPhoneSadari.setText(dataSadari.phone);
+                                if (dataSadari.isIndicated.equalsIgnoreCase("t")) {
+                                    textViewIsIndicatedSadari.setText("Terindikasi Mengidap Kanker");
+                                    textViewIsIndicatedSadari.setBackgroundResource(R.drawable.label_red);
+                                } else {
+                                    textViewIsIndicatedSadari.setText("Tidak Terindikasi Mengidap Kanker");
+                                    textViewIsIndicatedSadari.setBackgroundResource(R.drawable.label_green);
+                                }
+                                if (dataSadari.isChecked.equalsIgnoreCase("t")) {
+                                    materialButtonResponse.setVisibility(View.GONE);
+                                } else {
+                                    materialButtonResponse.setVisibility(View.VISIBLE);
+                                }
+                                String myFormat = "dd MMMM yyyy"; //In which you need put here
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("id", "ID"));
+                                DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
+                                DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                                try {
+                                    Date date = format.parse(dataSadari.dateSadari);
+                                    Date date1 = format1.parse(dataSadari.dateBirth);
+                                    textViewDateSadari.setText(sdf.format(date));
+                                    textViewDateBirthSadari.setText(sdf.format(date1));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                            if (dataSadari.isChecked.equalsIgnoreCase("t")) {
-                                materialButtonResponse.setVisibility(View.GONE);
-                            } else {
-                                materialButtonResponse.setVisibility(View.VISIBLE);
-                            }
-                            String myFormat = "dd MMMM yyyy"; //In which you need put here
-                            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("id", "ID"));
-                            DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
-                            DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                            try {
-                                Date date = format.parse(dataSadari.dateSadari);
-                                Date date1 = format1.parse(dataSadari.dateBirth);
-                                textViewDateSadari.setText(sdf.format(date));
-                                textViewDateBirthSadari.setText(sdf.format(date1));
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                            if (!response.body().data.dataSadariDetail.isEmpty()) {
+                                Log.e("size", String.valueOf(response.body().data.dataSadariDetail.size()));
+                                setRecyclerViewSadariDetail(response.body().data.dataSadariDetail);
                             }
                         }
-                        if (!response.body().data.dataSadariDetail.isEmpty()) {
-                            Log.e("size", String.valueOf(response.body().data.dataSadariDetail.size()));
-                            setRecyclerViewSadariDetail(response.body().data.dataSadariDetail);
-                        }
+                    } else {
+                        alertErrorServer();
+                        finish();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<SadariDetailResponse> call, Throwable t) {
+                alertErrorServer();
+                finish();
                 Log.e("getSadariDetail", t.getMessage());
             }
         });
@@ -125,6 +134,20 @@ public class SadariDetailActivity extends AppCompatActivity {
         sadariDetailAdapter = new SadariDetailAdapter(list);
         recyclerViewSadariDetail.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewSadariDetail.setAdapter(sadariDetailAdapter);
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(SadariDetailActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override

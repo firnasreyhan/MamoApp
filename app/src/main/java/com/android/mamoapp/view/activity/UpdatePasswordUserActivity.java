@@ -65,30 +65,49 @@ public class UpdatePasswordUserActivity extends AppCompatActivity {
                     ).enqueue(new Callback<BaseResponse>() {
                         @Override
                         public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                            if (response.body().status) {
-                                new AlertDialog.Builder(v.getContext())
-                                        .setCancelable(false)
-                                        .setTitle("Pesan")
-                                        .setMessage(response.body().message)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                finish();
-                                            }
-                                        })
-                                        .create()
-                                        .show();
+                            if (response.body() != null) {
+                                if (response.body().status) {
+                                    new AlertDialog.Builder(v.getContext())
+                                            .setCancelable(false)
+                                            .setTitle("Pesan")
+                                            .setMessage(response.body().message)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                    finish();
+                                                }
+                                            })
+                                            .create()
+                                            .show();
+                                }
+                            } else {
+                                alertErrorServer();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<BaseResponse> call, Throwable t) {
+                            alertErrorServer();
                             Log.e("putPassword", t.getMessage());
                         }
                     });
                 }
             }
         });
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(UpdatePasswordUserActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 }

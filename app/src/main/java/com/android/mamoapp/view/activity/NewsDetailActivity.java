@@ -4,7 +4,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -93,7 +95,9 @@ public class NewsDetailActivity extends AppCompatActivity {
         ).enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                Log.e("postViewNews", response.body().message);
+                if (response.body() != null) {
+                    Log.e("postViewNews", response.body().message);
+                }
             }
 
             @Override
@@ -107,13 +111,20 @@ public class NewsDetailActivity extends AppCompatActivity {
         ).enqueue(new Callback<NewsDetailResponse>() {
             @Override
             public void onResponse(Call<NewsDetailResponse> call, Response<NewsDetailResponse> response) {
-                if (response.body().status) {
-                    setData(response.body().data);
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        setData(response.body().data);
+                    }
+                } else {
+                    alertErrorServer();
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(Call<NewsDetailResponse> call, Throwable t) {
+                alertErrorServer();
+                finish();
                 Log.e("getNewsDetail", t.getMessage());
             }
         });
@@ -173,6 +184,20 @@ public class NewsDetailActivity extends AppCompatActivity {
         nestedScrollViewDetailNews.setVisibility(View.VISIBLE);
     }
 
+    public void alertErrorServer() {
+        new AlertDialog.Builder(NewsDetailActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -196,7 +221,9 @@ public class NewsDetailActivity extends AppCompatActivity {
                 ).enqueue(new Callback<BaseResponse>() {
                     @Override
                     public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                        Log.e("postShareNews", response.body().message);
+                        if (response.body() != null) {
+                            Log.e("postShareNews", response.body().message);
+                        }
                     }
 
                     @Override

@@ -14,6 +14,8 @@
         android:theme="@style/ThemeMamoApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".view.activity.PrivacyPolicyActivity"></activity>
+
         <service
             android:name=".service.MyFireBaseMessagingService"
             android:enabled="true"
@@ -30,7 +32,8 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <activity android:name=".view.activity.UpdatePasswordUserActivity"/>
+
+        <activity android:name=".view.activity.UpdatePasswordUserActivity" />
         <activity android:name=".view.activity.UpdateProfileUserActivity" />
         <activity android:name=".view.activity.SadariResponseActivity" />
         <activity android:name=".view.activity.SadariDetailUserActivity" />

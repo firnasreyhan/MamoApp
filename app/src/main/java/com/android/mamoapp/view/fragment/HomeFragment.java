@@ -1,5 +1,7 @@
 package com.android.mamoapp.view.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -26,6 +28,7 @@ import com.android.mamoapp.api.ApiInterface;
 import com.android.mamoapp.api.reponse.NewsResponse;
 import com.android.mamoapp.api.reponse.NewsTrendingResponse;
 import com.android.mamoapp.view.activity.NewsListActivity;
+import com.android.mamoapp.view.activity.VideoDetailActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -69,9 +72,14 @@ public class HomeFragment extends Fragment {
         ).enqueue(new Callback<NewsTrendingResponse>() {
             @Override
             public void onResponse(Call<NewsTrendingResponse> call, Response<NewsTrendingResponse> response) {
-                if (response.body().status) {
-                    if (!response.body().data.isEmpty()) {
-                        setRecyclerViewHeaderNews(response.body().data);
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        if (!response.body().data.isEmpty()) {
+                            setRecyclerViewHeaderNews(response.body().data);
+                        } else {
+                            linearLayoutNews.setVisibility(View.GONE);
+                            frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                        }
                     } else {
                         linearLayoutNews.setVisibility(View.GONE);
                         frameLayoutEmptyNews.setVisibility(View.VISIBLE);
@@ -79,11 +87,15 @@ public class HomeFragment extends Fragment {
                 } else {
                     linearLayoutNews.setVisibility(View.GONE);
                     frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                    alertErrorServer();
                 }
             }
 
             @Override
             public void onFailure(Call<NewsTrendingResponse> call, Throwable t) {
+                linearLayoutNews.setVisibility(View.GONE);
+                frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                alertErrorServer();
                 Log.e("getNewsTrending", t.getMessage());
             }
         });
@@ -94,9 +106,14 @@ public class HomeFragment extends Fragment {
         ).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-                if (response.body().status) {
-                    if (!response.body().data.isEmpty()) {
-                        setRecyclerViewNews(response.body().data);
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        if (!response.body().data.isEmpty()) {
+                            setRecyclerViewNews(response.body().data);
+                        } else {
+                            linearLayoutNews.setVisibility(View.GONE);
+                            frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                        }
                     } else {
                         linearLayoutNews.setVisibility(View.GONE);
                         frameLayoutEmptyNews.setVisibility(View.VISIBLE);
@@ -104,11 +121,15 @@ public class HomeFragment extends Fragment {
                 } else {
                     linearLayoutNews.setVisibility(View.GONE);
                     frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                    alertErrorServer();
                 }
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
+                linearLayoutNews.setVisibility(View.GONE);
+                frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                alertErrorServer();
                 Log.e("news", t.getMessage());
             }
         });
@@ -130,12 +151,17 @@ public class HomeFragment extends Fragment {
                 ).enqueue(new Callback<NewsTrendingResponse>() {
                     @Override
                     public void onResponse(Call<NewsTrendingResponse> call, Response<NewsTrendingResponse> response) {
-                        if (response.body().status) {
-                            if (!response.body().data.isEmpty()) {
-                                setRecyclerViewHeaderNews(response.body().data);
-                                shimmerFrameLayoutHeaderNews.stopShimmer();
-                                shimmerFrameLayoutHeaderNews.setVisibility(View.GONE);
-                                recyclerViewHeaderNews.setVisibility(View.VISIBLE);
+                        if (response.body() != null) {
+                            if (response.body().status) {
+                                if (!response.body().data.isEmpty()) {
+                                    setRecyclerViewHeaderNews(response.body().data);
+                                    shimmerFrameLayoutHeaderNews.stopShimmer();
+                                    shimmerFrameLayoutHeaderNews.setVisibility(View.GONE);
+                                    recyclerViewHeaderNews.setVisibility(View.VISIBLE);
+                                } else {
+                                    linearLayoutNews.setVisibility(View.GONE);
+                                    frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                                }
                             } else {
                                 linearLayoutNews.setVisibility(View.GONE);
                                 frameLayoutEmptyNews.setVisibility(View.VISIBLE);
@@ -143,6 +169,7 @@ public class HomeFragment extends Fragment {
                         } else {
                             linearLayoutNews.setVisibility(View.GONE);
                             frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                            alertErrorServer();
                         }
                     }
 
@@ -157,12 +184,17 @@ public class HomeFragment extends Fragment {
                         3).enqueue(new Callback<NewsResponse>() {
                     @Override
                     public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-                        if (response.body().status) {
-                            if (!response.body().data.isEmpty()) {
-                                setRecyclerViewNews(response.body().data);
-                                shimmerFrameLayoutNews.stopShimmer();
-                                shimmerFrameLayoutNews.setVisibility(View.GONE);
-                                recyclerViewNews.setVisibility(View.VISIBLE);
+                        if (response.body() != null) {
+                            if (response.body().status) {
+                                if (!response.body().data.isEmpty()) {
+                                    setRecyclerViewNews(response.body().data);
+                                    shimmerFrameLayoutNews.stopShimmer();
+                                    shimmerFrameLayoutNews.setVisibility(View.GONE);
+                                    recyclerViewNews.setVisibility(View.VISIBLE);
+                                } else {
+                                    linearLayoutNews.setVisibility(View.GONE);
+                                    frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                                }
                             } else {
                                 linearLayoutNews.setVisibility(View.GONE);
                                 frameLayoutEmptyNews.setVisibility(View.VISIBLE);
@@ -170,11 +202,15 @@ public class HomeFragment extends Fragment {
                         } else {
                             linearLayoutNews.setVisibility(View.GONE);
                             frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                            alertErrorServer();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<NewsResponse> call, Throwable t) {
+                        linearLayoutNews.setVisibility(View.GONE);
+                        frameLayoutEmptyNews.setVisibility(View.VISIBLE);
+                        alertErrorServer();
                         Log.e("news", t.getMessage());
                     }
                 });
@@ -213,6 +249,20 @@ public class HomeFragment extends Fragment {
         shimmerFrameLayoutNews.stopShimmer();
         shimmerFrameLayoutNews.setVisibility(View.GONE);
         recyclerViewNews.setVisibility(View.VISIBLE);
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override

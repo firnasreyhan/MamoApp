@@ -29,23 +29,27 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         int loadingTime = 3000;
         new Handler().postDelayed(() -> {
-            if (AppPreference.getUser(getApplicationContext()) != null) {
-                if (AppPreference.getUser(SplashScreenActivity.this).nameRole.equalsIgnoreCase("user")) {
-                    Uri uri = getIntent().getData();
-                    if (uri != null) {
-                        String[] spPath= uri.getPath().split("/");
-                        String idNews = spPath[spPath.length-1];
-                        Intent intent = new Intent(SplashScreenActivity.this, UserMainActivity.class);
-                        intent.putExtra("ID_NEWS", idNews);
-                        startActivity(intent);
+            if (AppPreference.getPolicy(this)) {
+                if (AppPreference.getUser(getApplicationContext()) != null) {
+                    if (AppPreference.getUser(SplashScreenActivity.this).nameRole.equalsIgnoreCase("user")) {
+                        Uri uri = getIntent().getData();
+                        if (uri != null) {
+                            String[] spPath= uri.getPath().split("/");
+                            String idNews = spPath[spPath.length-1];
+                            Intent intent = new Intent(SplashScreenActivity.this, UserMainActivity.class);
+                            intent.putExtra("ID_NEWS", idNews);
+                            startActivity(intent);
+                        } else {
+                            startActivity(new Intent(SplashScreenActivity.this, UserMainActivity.class));
+                        }
                     } else {
-                        startActivity(new Intent(SplashScreenActivity.this, UserMainActivity.class));
+                        startActivity(new Intent(SplashScreenActivity.this, DoctorMainActivity.class));
                     }
                 } else {
-                    startActivity(new Intent(SplashScreenActivity.this, DoctorMainActivity.class));
+                    startActivity(new Intent(SplashScreenActivity.this, SignInActivity.class));
                 }
             } else {
-                startActivity(new Intent(SplashScreenActivity.this, SignInActivity.class));
+                startActivity(new Intent(SplashScreenActivity.this, PrivacyPolicyActivity.class));
             }
             finish();
         }, loadingTime);

@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 public class AppPreference {
     static final String PREF = "PREF";
     static final String USER_PREF = "USER_PREF";
-    static final String TOKEM_PREF = "TOKEN_PREF";
+    static final String POLICY_PREF = "POLICY_PREF";
 
     public static void saveUser(Context context, LoginResponse.LoginModel user){
         context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
@@ -34,24 +34,24 @@ public class AppPreference {
         }
     }
 
-    public static void saveToken(Context context, String token){
+    public static void savePolicy(Context context, boolean status){
         context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
-                .edit().putString(TOKEM_PREF, token).apply();
+                .edit().putBoolean(POLICY_PREF, status).apply();
     }
 
-    public static String getToken(Context context){
+    public static boolean getPolicy(Context context){
         SharedPreferences pref = context.getSharedPreferences(PREF, Context.MODE_PRIVATE);
-        if(pref.contains(TOKEM_PREF)){
-            return pref.getString(TOKEM_PREF, "");
+        if(pref.contains(POLICY_PREF)){
+            return pref.getBoolean(POLICY_PREF, false);
         }
 
-        return null;
+        return false;
     }
 
-    public static void removeToken(Context context){
+    public static void removePolicy(Context context){
         SharedPreferences pref = context.getSharedPreferences(PREF, Context.MODE_PRIVATE);
-        if(pref.contains(TOKEM_PREF)){
-            pref.edit().remove(TOKEM_PREF).apply();
+        if(pref.contains(POLICY_PREF)){
+            pref.edit().remove(POLICY_PREF).apply();
         }
     }
 }

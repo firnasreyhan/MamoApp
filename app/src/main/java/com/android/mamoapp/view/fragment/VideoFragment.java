@@ -1,5 +1,7 @@
 package com.android.mamoapp.view.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -50,20 +52,27 @@ public class VideoFragment extends Fragment {
         apiInterface.getVideo().enqueue(new Callback<VideoResponse>() {
             @Override
             public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
-                if (response.body().status) {
-                    if (!response.body().data.isEmpty()) {
-                        setRecyclerViewVideo(response.body().data);
-                        showNotEmpty();
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        if (!response.body().data.isEmpty()) {
+                            setRecyclerViewVideo(response.body().data);
+                            showNotEmpty();
+                        } else {
+                            showEmpty();
+                        }
                     } else {
                         showEmpty();
                     }
                 } else {
-                    showEmpty();
+                    showNotEmpty();
+                    alertErrorServer();
                 }
             }
 
             @Override
             public void onFailure(Call<VideoResponse> call, Throwable t) {
+                showNotEmpty();
+                alertErrorServer();
                 Log.e("video", t.getMessage());
             }
         });
@@ -79,20 +88,27 @@ public class VideoFragment extends Fragment {
                 apiInterface.getVideo().enqueue(new Callback<VideoResponse>() {
                     @Override
                     public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
-                        if (response.body().status) {
-                            if (!response.body().data.isEmpty()) {
-                                setRecyclerViewVideo(response.body().data);
-                                showNotEmpty();
+                        if (response.body() != null) {
+                            if (response.body().status) {
+                                if (!response.body().data.isEmpty()) {
+                                    setRecyclerViewVideo(response.body().data);
+                                    showNotEmpty();
+                                } else {
+                                    showEmpty();
+                                }
                             } else {
                                 showEmpty();
                             }
                         } else {
-                            showEmpty();
+                            showNotEmpty();
+                            alertErrorServer();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<VideoResponse> call, Throwable t) {
+                        showNotEmpty();
+                        alertErrorServer();
                         Log.e("video", t.getMessage());
                     }
                 });
@@ -123,6 +139,19 @@ public class VideoFragment extends Fragment {
         shimmerFrameLayoutVideo.stopShimmer();
         shimmerFrameLayoutVideo.setVisibility(View.GONE);
         recyclerViewVideo.setVisibility(View.VISIBLE);
+    }
+    public void alertErrorServer() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.android.mamoapp.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -58,25 +60,29 @@ public class VideoDetailActivity extends AppCompatActivity {
         ).enqueue(new Callback<VideoDetailResponse>() {
             @Override
             public void onResponse(Call<VideoDetailResponse> call, Response<VideoDetailResponse> response) {
-                if (response.body().status) {
-                    VideoDetailResponse.VideoModel model = response.body().data;
-                    textViewTitleVideo.setText(model.title);
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        VideoDetailResponse.VideoModel model = response.body().data;
+                        textViewTitleVideo.setText(model.title);
 
-                    SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    SimpleDateFormat newFormat = new SimpleDateFormat("dd MMM yyyy");
-                    try {
-                        Date date = oldFormat.parse(model.datePublisher);
-                        textViewDateVideo.setText(newFormat.format(date));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                        SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        SimpleDateFormat newFormat = new SimpleDateFormat("dd MMM yyyy");
+                        try {
+                            Date date = oldFormat.parse(model.datePublisher);
+                            textViewDateVideo.setText(newFormat.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        textViewDescriptionVideo.setText(model.description);
+                        setYouTubePlayerViewDetailVideo(model.idVideo);
+
+                        shimmerFrameLayoutDetailVideo.stopShimmer();
+                        shimmerFrameLayoutDetailVideo.setVisibility(View.GONE);
+                        linearLayoutDetailVideo.setVisibility(View.VISIBLE);
                     }
-
-                    textViewDescriptionVideo.setText(model.description);
-                    setYouTubePlayerViewDetailVideo(model.idVideo);
-
-                    shimmerFrameLayoutDetailVideo.stopShimmer();
-                    shimmerFrameLayoutDetailVideo.setVisibility(View.GONE);
-                    linearLayoutDetailVideo.setVisibility(View.VISIBLE);
+                } else {
+                    alertErrorServer();
                 }
             }
 
@@ -97,6 +103,19 @@ public class VideoDetailActivity extends AppCompatActivity {
         });
     }
 
+    public void alertErrorServer() {
+        new AlertDialog.Builder(VideoDetailActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
 
     @Override
     public void onResume() {

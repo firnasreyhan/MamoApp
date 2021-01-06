@@ -83,37 +83,34 @@ public class SignInActivity extends AppCompatActivity {
                             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                                 if (progressDialog.isShowing()) {
                                     progressDialog.dismiss();
-
-                                    if (response.body().status) {
-                                        if (response.body().data.nameRole.equalsIgnoreCase("user") || response.body().data.nameRole.equalsIgnoreCase("dokter")) {
-                                            saveUser(response.body().data);
-                                            String refreshToken = FirebaseInstanceId.getInstance().getToken();
-                                            updateToken(refreshToken);
-                                            if (response.body().data.nameRole.equalsIgnoreCase("user")) {
-                                                startActivity(new Intent(v.getContext(), UserMainActivity.class));
-                                            } else {
-                                                startActivity(new Intent(v.getContext(), DoctorMainActivity.class));
+                                    if (response.body() != null) {
+                                        if (response.body().status) {
+                                            if (response.body().data.nameRole.equalsIgnoreCase("user") || response.body().data.nameRole.equalsIgnoreCase("dokter")) {
+                                                saveUser(response.body().data);
+                                                String refreshToken = FirebaseInstanceId.getInstance().getToken();
+                                                updateToken(refreshToken);
+                                                if (response.body().data.nameRole.equalsIgnoreCase("user")) {
+                                                    startActivity(new Intent(v.getContext(), UserMainActivity.class));
+                                                } else {
+                                                    startActivity(new Intent(v.getContext(), DoctorMainActivity.class));
+                                                }
+                                                finish();
                                             }
-                                            finish();
+                                        } else {
+                                            alertErrorServer();
                                         }
                                     } else {
-                                        new AlertDialog.Builder(v.getContext())
-                                                .setTitle("Pesan")
-                                                .setMessage(response.body().message)
-                                                .setCancelable(false)
-                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                })
-                                                .show();
+                                        alertErrorServer();
                                     }
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                if (progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
+                               alertErrorServer();
                                 Log.e("login", t.getMessage());
                             }
                         });
@@ -128,6 +125,20 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(new Intent(v.getContext(), SignUpActivity.class));
             }
         });
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(SignInActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     public void saveUser(LoginResponse.LoginModel loginModel) {

@@ -118,30 +118,35 @@ public class SadariResponseActivity extends AppCompatActivity {
                     ).enqueue(new Callback<SadariResultDetailResponse>() {
                         @Override
                         public void onResponse(Call<SadariResultDetailResponse> call, Response<SadariResultDetailResponse> response) {
-                            if (response.body().status) {
-                                Log.e("idSadariResult", response.body().data.idSadariResult);
-                                if (uri1 != null && uri2 != null) {
-                                    postImageSadari(response.body().data.idSadariResult);
+                            if (response.body() != null) {
+                                if (response.body().status) {
+                                    Log.e("idSadariResult", response.body().data.idSadariResult);
+                                    if (uri1 != null && uri2 != null) {
+                                        postImageSadari(response.body().data.idSadariResult);
+                                    }
+                                    getUserToken(email);
+                                    new AlertDialog.Builder(SadariResponseActivity.this)
+                                            .setTitle("Pesan")
+                                            .setMessage("Tanggapan berhasil dikirim!")
+                                            .setCancelable(false)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                    finish();
+                                                }
+                                            })
+                                            .create()
+                                            .show();
                                 }
-                                getUserToken(email);
-                                new AlertDialog.Builder(SadariResponseActivity.this)
-                                        .setTitle("Pesan")
-                                        .setMessage("Tanggapan berhasil dikirim!")
-                                        .setCancelable(false)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                finish();
-                                            }
-                                        })
-                                        .create()
-                                        .show();
+                            } else {
+                                alertErrorServer();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<SadariResultDetailResponse> call, Throwable t) {
+                            alertErrorServer();
                             Log.e("postResultDetailSadari", t.getMessage());
                         }
                     });
@@ -161,8 +166,10 @@ public class SadariResponseActivity extends AppCompatActivity {
         ).enqueue(new Callback<SadariImageResponse>() {
             @Override
             public void onResponse(Call<SadariImageResponse> call, Response<SadariImageResponse> response) {
-                Log.e("img1", response.body().img1.message);
-                Log.e("img2", response.body().img2.message);
+                if (response.body() != null) {
+                    Log.e("img1", response.body().img1.message);
+                    Log.e("img2", response.body().img2.message);
+                }
             }
 
             @Override
@@ -245,6 +252,20 @@ public class SadariResponseActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(SadariResponseActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override

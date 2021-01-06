@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -76,20 +78,27 @@ public class DoctorMainActivity extends AppCompatActivity {
                 ).enqueue(new Callback<SadariListResponse>() {
                     @Override
                     public void onResponse(Call<SadariListResponse> call, Response<SadariListResponse> response) {
-                        if (response.body().status) {
-                            if (!response.body().data.isEmpty()) {
-                                setRecyclerViewNewsSadari(response.body().data);
-                                showNotEmpty();
+                        if (response.body() != null) {
+                            if (response.body().status) {
+                                if (!response.body().data.isEmpty()) {
+                                    setRecyclerViewNewsSadari(response.body().data);
+                                    showNotEmpty();
+                                } else {
+                                    showEmpty();
+                                }
                             } else {
                                 showEmpty();
                             }
                         } else {
                             showEmpty();
+                            alertErrorServer();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<SadariListResponse> call, Throwable t) {
+                        showEmpty();
+                        alertErrorServer();
                         Log.e("getListSadari", t.getMessage());
                     }
                 });
@@ -108,20 +117,27 @@ public class DoctorMainActivity extends AppCompatActivity {
         ).enqueue(new Callback<SadariListResponse>() {
             @Override
             public void onResponse(Call<SadariListResponse> call, Response<SadariListResponse> response) {
-                if (response.body().status) {
-                    if (!response.body().data.isEmpty()) {
-                        setRecyclerViewNewsSadari(response.body().data);
-                        showNotEmpty();
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        if (!response.body().data.isEmpty()) {
+                            setRecyclerViewNewsSadari(response.body().data);
+                            showNotEmpty();
+                        } else {
+                            showEmpty();
+                        }
                     } else {
                         showEmpty();
                     }
                 } else {
                     showEmpty();
+                    alertErrorServer();
                 }
             }
 
             @Override
             public void onFailure(Call<SadariListResponse> call, Throwable t) {
+                showEmpty();
+                alertErrorServer();
                 Log.e("getListSadari", t.getMessage());
             }
         });
@@ -143,6 +159,20 @@ public class DoctorMainActivity extends AppCompatActivity {
         shimmerFrameLayoutSadari.stopShimmer();
         shimmerFrameLayoutSadari.setVisibility(View.GONE);
         recyclerViewNewsSadari.setVisibility(View.VISIBLE);
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(DoctorMainActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override

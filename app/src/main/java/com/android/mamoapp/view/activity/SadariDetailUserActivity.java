@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,37 +71,58 @@ public class SadariDetailUserActivity extends AppCompatActivity {
         ).enqueue(new Callback<SadariDetailResponse>() {
             @Override
             public void onResponse(Call<SadariDetailResponse> call, Response<SadariDetailResponse> response) {
-                if (response.body().status) {
-                    if (!response.body().data.dataSadari.isEmpty()) {
-                        if (response.body().data.dataSadari.get(0).isIndicated.equalsIgnoreCase("t")) {
-                            textViewSadariIsIndicated.setText("Terindikasi Kangker");
-                            linearLayoutIsIndicated.setVisibility(View.VISIBLE);
-                            setSadariResult(idSadari, response.body().data.dataSadari.get(0).isChecked);
-                        } else {
-                            textViewSadariIsIndicated.setText("Tidak Terindikasi Kangker");
-                        }
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        if (!response.body().data.dataSadari.isEmpty()) {
+                            if (response.body().data.dataSadari.get(0).isIndicated.equalsIgnoreCase("t")) {
+                                textViewSadariIsIndicated.setText("Terindikasi Kangker");
+                                linearLayoutIsIndicated.setVisibility(View.VISIBLE);
+                                setSadariResult(idSadari, response.body().data.dataSadari.get(0).isChecked);
+                            } else {
+                                textViewSadariIsIndicated.setText("Tidak Terindikasi Kangker");
+                            }
 
-                        String nmyFormat = "dd MMMM yyyy"; //In which you need put here
-                        SimpleDateFormat nsdf = new SimpleDateFormat(nmyFormat, new Locale("id", "ID"));
-                        DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
-                        try {
-                            Date date = format.parse(response.body().data.dataSadari.get(0).dateSadari);
-                            textViewSadariSurveyDate.setText(nsdf.format(date));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                            String nmyFormat = "dd MMMM yyyy"; //In which you need put here
+                            SimpleDateFormat nsdf = new SimpleDateFormat(nmyFormat, new Locale("id", "ID"));
+                            DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
+                            try {
+                                Date date = format.parse(response.body().data.dataSadari.get(0).dateSadari);
+                                textViewSadariSurveyDate.setText(nsdf.format(date));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (!response.body().data.dataSadariDetail.isEmpty()) {
+                            setRecyclerViewSadariDetail(response.body().data.dataSadariDetail);
                         }
                     }
-                    if (!response.body().data.dataSadariDetail.isEmpty()) {
-                        setRecyclerViewSadariDetail(response.body().data.dataSadariDetail);
-                    }
+                } else {
+                    alertErrorServer();
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(Call<SadariDetailResponse> call, Throwable t) {
+                alertErrorServer();
+                finish();
                 Log.e("getSadariDetail", t.getMessage());
             }
         });
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(SadariDetailUserActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     public void setRecyclerViewSadariDetail(ArrayList<SadariDetailResponse.SadariDetail.DataSadariDetail> list) {
@@ -122,49 +145,56 @@ public class SadariDetailUserActivity extends AppCompatActivity {
         ).enqueue(new Callback<SadariResultResponse>() {
             @Override
             public void onResponse(Call<SadariResultResponse> call, Response<SadariResultResponse> response) {
-                if (response.body().status) {
-                    if (response.body().data != null) {
-                        textViewSadariDoctorName.setText(response.body().data.doctorName);
-                        String nmyFormat = "dd MMMM yyyy"; //In which you need put here
-                        SimpleDateFormat nsdf = new SimpleDateFormat(nmyFormat, new Locale("id", "ID"));
-                        DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
-                        try {
-                            Date date = format.parse(response.body().data.dateSadariResult);
-                            textViewSadariCheckDate.setText(nsdf.format(date));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        if (response.body().data != null) {
+                            textViewSadariDoctorName.setText(response.body().data.doctorName);
+                            String nmyFormat = "dd MMMM yyyy"; //In which you need put here
+                            SimpleDateFormat nsdf = new SimpleDateFormat(nmyFormat, new Locale("id", "ID"));
+                            DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
+                            try {
+                                Date date = format.parse(response.body().data.dateSadariResult);
+                                textViewSadariCheckDate.setText(nsdf.format(date));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            Glide.with(SadariDetailUserActivity.this)
+                                    .load(response.body().data.img1SadariResult)
+                                    //.load(R.drawable.img_default_video)
+                                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                    .skipMemoryCache(true)
+                                    .dontAnimate()
+                                    .dontTransform()
+                                    .priority(Priority.IMMEDIATE)
+                                    .encodeFormat(Bitmap.CompressFormat.PNG)
+                                    .format(DecodeFormat.DEFAULT)
+                                    .placeholder(R.drawable.img_default_video)
+                                    .into(imageViewResponse1);
+                            Glide.with(SadariDetailUserActivity.this)
+                                    .load(response.body().data.img2SadariResult)
+                                    //.load(R.drawable.img_default_video)
+                                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                    .skipMemoryCache(true)
+                                    .dontAnimate()
+                                    .dontTransform()
+                                    .priority(Priority.IMMEDIATE)
+                                    .encodeFormat(Bitmap.CompressFormat.PNG)
+                                    .format(DecodeFormat.DEFAULT)
+                                    .placeholder(R.drawable.img_default_video)
+                                    .into(imageViewResponse2);
+                            textViewSadariResponseText.setText(response.body().data.contentSadariResult);
                         }
-                        Glide.with(SadariDetailUserActivity.this)
-                                .load(response.body().data.img1SadariResult)
-                                //.load(R.drawable.img_default_video)
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                .skipMemoryCache(true)
-                                .dontAnimate()
-                                .dontTransform()
-                                .priority(Priority.IMMEDIATE)
-                                .encodeFormat(Bitmap.CompressFormat.PNG)
-                                .format(DecodeFormat.DEFAULT)
-                                .placeholder(R.drawable.img_default_video)
-                                .into(imageViewResponse1);
-                        Glide.with(SadariDetailUserActivity.this)
-                                .load(response.body().data.img2SadariResult)
-                                //.load(R.drawable.img_default_video)
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                                .skipMemoryCache(true)
-                                .dontAnimate()
-                                .dontTransform()
-                                .priority(Priority.IMMEDIATE)
-                                .encodeFormat(Bitmap.CompressFormat.PNG)
-                                .format(DecodeFormat.DEFAULT)
-                                .placeholder(R.drawable.img_default_video)
-                                .into(imageViewResponse2);
-                        textViewSadariResponseText.setText(response.body().data.contentSadariResult);
                     }
+                } else {
+                    alertErrorServer();
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(Call<SadariResultResponse> call, Throwable t) {
+                alertErrorServer();
+                finish();
                 Log.e("getSadariResult", t.getMessage());
             }
         });

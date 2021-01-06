@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -57,20 +59,26 @@ public class NewsListActivity extends AppCompatActivity {
         ).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-                if (response.body().status) {
-                    if (!response.body().data.isEmpty()) {
-                        setRecyclerViewNewsList(response.body().data);
-                        showNotEmpty();
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        if (!response.body().data.isEmpty()) {
+                            setRecyclerViewNewsList(response.body().data);
+                            showNotEmpty();
+                        } else {
+                            showEmpty();
+                        }
                     } else {
                         showEmpty();
                     }
                 } else {
                     showEmpty();
+                    alertErrorServer();
                 }
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
+                alertErrorServer();
                 Log.e("getNews", t.getMessage());
             }
         });
@@ -115,15 +123,20 @@ public class NewsListActivity extends AppCompatActivity {
         ).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
-                if (response.body().status) {
-                    if (!response.body().data.isEmpty()) {
-                        setRecyclerViewNewsList(response.body().data);
-                        showNotEmpty();
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        if (!response.body().data.isEmpty()) {
+                            setRecyclerViewNewsList(response.body().data);
+                            showNotEmpty();
+                        } else {
+                            showEmpty();
+                        }
                     } else {
                         showEmpty();
                     }
                 } else {
                     showEmpty();
+                    alertErrorServer();
                 }
             }
 
@@ -144,6 +157,20 @@ public class NewsListActivity extends AppCompatActivity {
         shimmerFrameLayoutNewsList.stopShimmer();
         shimmerFrameLayoutNewsList.setVisibility(View.GONE);
         recyclerViewNewsList.setVisibility(View.VISIBLE);
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(NewsListActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override

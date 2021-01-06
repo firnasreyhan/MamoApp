@@ -1,5 +1,7 @@
 package com.android.mamoapp.view.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -85,13 +87,18 @@ public class TestResultActivity extends AppCompatActivity {
         ).enqueue(new Callback<SadariResponse>() {
             @Override
             public void onResponse(Call<SadariResponse> call, Response<SadariResponse> response) {
-                if (response.body().status) {
-                    postDetailSadari(response.body().data.idSadari);
+                if (response.body() != null) {
+                    if (response.body().status) {
+                        postDetailSadari(response.body().data.idSadari);
+                    }
+                } else {
+                    alertErrorServer();
                 }
             }
 
             @Override
             public void onFailure(Call<SadariResponse> call, Throwable t) {
+                alertErrorServer();
                 Log.e("postSadari", t.getMessage());
             }
         });
@@ -106,7 +113,9 @@ public class TestResultActivity extends AppCompatActivity {
             ).enqueue(new Callback<BaseResponse>() {
                 @Override
                 public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                    Log.e("postDetailSadari", response.body().message);
+                    if (response.body() != null) {
+                        Log.e("postDetailSadari", response.body().message);
+                    }
                 }
 
                 @Override
@@ -126,7 +135,9 @@ public class TestResultActivity extends AppCompatActivity {
         ).enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                Log.e("putResultSadari", response.body().message);
+                if (response.body() != null) {
+                    Log.e("putResultSadari", response.body().message);
+                }
             }
 
             @Override
@@ -134,5 +145,19 @@ public class TestResultActivity extends AppCompatActivity {
                 Log.e("putResultSadari", t.getMessage());
             }
         });
+    }
+
+    public void alertErrorServer() {
+        new AlertDialog.Builder(TestResultActivity.this)
+                .setTitle("Pesan")
+                .setMessage("Terjadi kesalahan pada server, silahkan coba beberapa saat lagi")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
     }
 }

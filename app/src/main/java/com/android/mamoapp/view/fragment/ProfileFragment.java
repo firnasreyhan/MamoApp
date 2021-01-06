@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.android.mamoapp.R;
 import com.android.mamoapp.preference.AppPreference;
 import com.android.mamoapp.view.activity.HistoryActivity;
+import com.android.mamoapp.view.activity.PrivacyPolicyActivity;
 import com.android.mamoapp.view.activity.SignInActivity;
 import com.android.mamoapp.view.activity.UpdatePasswordUserActivity;
 import com.android.mamoapp.view.activity.UpdateProfileUserActivity;
@@ -28,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ProfileFragment extends Fragment {
     private ShapeableImageView shapeableImageViewAvatar;
-    private MaterialButton materialButtonLogout, materialButtonHistory, materialButtonProfileEdit, materialButtonPasswordEdit;
+    private MaterialButton materialButtonLogout, materialButtonHistory, materialButtonProfileEdit, materialButtonPasswordEdit, materialButtonPrivacyPolicy;
     private TextView textViewProfileName, textViewProfilePhone;
 
     @Override
@@ -41,6 +42,7 @@ public class ProfileFragment extends Fragment {
         materialButtonHistory = view.findViewById(R.id.materialButtonHistory);
         materialButtonProfileEdit = view.findViewById(R.id.materialButtonProfileEdit);
         materialButtonPasswordEdit = view.findViewById(R.id.materialButtonPasswordEdit);
+        materialButtonPrivacyPolicy = view.findViewById(R.id.materialButtonPrivacyPolicy);
         textViewProfileName = view.findViewById(R.id.textViewProfileName);
         textViewProfilePhone = view.findViewById(R.id.textViewProfilePhone);
 
@@ -77,6 +79,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(v.getContext(), UpdatePasswordUserActivity.class));
+            }
+        });
+
+        materialButtonPrivacyPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(), PrivacyPolicyActivity.class));
             }
         });
 
