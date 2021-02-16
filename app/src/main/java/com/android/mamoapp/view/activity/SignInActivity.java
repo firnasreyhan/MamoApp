@@ -85,7 +85,7 @@ public class SignInActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
                                     if (response.body() != null) {
                                         if (response.body().status) {
-                                            if (response.body().data.nameRole.equalsIgnoreCase("user") || response.body().data.nameRole.equalsIgnoreCase("dokter")) {
+                                            if (response.body().data.nameRole.equalsIgnoreCase("user") || response.body().data.nameRole.equalsIgnoreCase("doctor")) {
                                                 saveUser(response.body().data);
                                                 String refreshToken = FirebaseInstanceId.getInstance().getToken();
                                                 updateToken(refreshToken);
@@ -97,10 +97,18 @@ public class SignInActivity extends AppCompatActivity {
                                                 finish();
                                             }
                                         } else {
-                                            alertErrorServer();
+                                            new AlertDialog.Builder(SignInActivity.this)
+                                                    .setTitle("Pesan")
+                                                    .setMessage(response.body().message)
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    })
+                                                    .create()
+                                                    .show();
                                         }
-                                    } else {
-                                        alertErrorServer();
                                     }
                                 }
                             }

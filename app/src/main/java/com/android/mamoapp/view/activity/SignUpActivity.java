@@ -155,8 +155,6 @@ public class SignUpActivity extends AppCompatActivity {
                                                     }
                                                 })
                                                 .show();
-                                    } else {
-                                        alertErrorServer();
                                     }
                                 }
                             }
