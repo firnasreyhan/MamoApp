@@ -2,6 +2,7 @@ package com.android.mamoapp.view.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +36,7 @@ public class TestResultActivity extends AppCompatActivity {
 
     private ArrayList<QuestionResponse.QuestionModel> questionModelArrayList;
 
+    private String idSadari;
     private int point = 0;
     private boolean result = false;
 
@@ -75,7 +77,31 @@ public class TestResultActivity extends AppCompatActivity {
         materialButtonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if (result) {
+                    new AlertDialog.Builder(TestResultActivity.this)
+                            .setTitle("Pesan")
+                            .setMessage("Apakah anda ingin mengirim gambar hasil test?")
+                            .setPositiveButton("Iya", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(v.getContext(), UploadGambarActivity.class);
+                                    intent.putExtra("ID_SADARI", idSadari);
+                                    startActivity(intent);
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    finish();
+                                }
+                            })
+                            .create()
+                            .show();
+                } else {
+                    finish();
+                }
             }
         });
     }
@@ -90,6 +116,7 @@ public class TestResultActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     if (response.body().status) {
                         postDetailSadari(response.body().data.idSadari);
+                        idSadari = response.body().data.idSadari;
                     }
                 } else {
                     alertErrorServer();

@@ -48,6 +48,12 @@ public interface ApiInterface {
             @Field("phone") String phone
     );
 
+    @POST("user/registerToken")
+    @FormUrlEncoded
+    Call<BaseResponse> postToken(
+            @Field("token") String token
+    );
+
     @POST("sadari")
     @FormUrlEncoded
     Call<SadariResponse> postSadari(
@@ -87,12 +93,21 @@ public interface ApiInterface {
     );
 
     @Multipart
-    @POST("sadari/image")
-    Call<SadariImageResponse> postImageSadari(
+    @POST("sadari/imageSadariResult")
+    Call<SadariImageResponse> postImageResultSadari(
             @Part("idSadariResult") RequestBody idSadariResult,
             @Part MultipartBody.Part img1,
             @Part MultipartBody.Part img2
     );
+
+    @Multipart
+    @POST("sadari/imageSadari")
+    Call<SadariImageResponse> postImageSadari(
+            @Part("idSadari") RequestBody idSadariResult,
+            @Part MultipartBody.Part img1,
+            @Part MultipartBody.Part img2
+    );
+
 
     @Multipart
     @POST("user/avatar")

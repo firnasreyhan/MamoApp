@@ -39,9 +39,9 @@ import retrofit2.Response;
 public class SadariDetailUserActivity extends AppCompatActivity {
     private ApiInterface apiInterface;
     private RecyclerView recyclerViewSadariDetail;
-    private ImageView imageViewResponse1, imageViewResponse2;
+    private ImageView imageViewResponse1, imageViewResponse2, imageViewDokumenUser1, imageViewDokumenUser2;
     private TextView textViewSadariIsIndicated, textViewSadariSurveyDate, textViewSadariIsChecked, textViewSadariDoctorName, textViewSadariCheckDate, textViewSadariResponseText;
-    private LinearLayout linearLayoutIsIndicated;
+    private LinearLayout linearLayoutIsIndicated, linearLayoutDokumenUser;
     private SadariDetailAdapter sadariDetailAdapter;
 
     private String idSadari;
@@ -58,6 +58,8 @@ public class SadariDetailUserActivity extends AppCompatActivity {
         recyclerViewSadariDetail = findViewById(R.id.recyclerViewSadariDetail);
         imageViewResponse1 = findViewById(R.id.imageViewResponse1);
         imageViewResponse2 = findViewById(R.id.imageViewResponse2);
+        imageViewDokumenUser1 = findViewById(R.id.imageViewDokumenUser1);
+        imageViewDokumenUser2 = findViewById(R.id.imageViewDokumenUser2);
         textViewSadariIsIndicated = findViewById(R.id.textViewSadariIsIndicated);
         textViewSadariSurveyDate = findViewById(R.id.textViewSadariSurveyDate);
         textViewSadariIsChecked = findViewById(R.id.textViewSadariIsChecked);
@@ -65,6 +67,7 @@ public class SadariDetailUserActivity extends AppCompatActivity {
         textViewSadariCheckDate = findViewById(R.id.textViewSadariCheckDate);
         textViewSadariResponseText = findViewById(R.id.textViewSadariResponseText);
         linearLayoutIsIndicated = findViewById(R.id.linearLayoutIsIndicated);
+        linearLayoutDokumenUser = findViewById(R.id.linearLayoutDokumenUser);
 
         apiInterface.getSadariDetail(
                 idSadari
@@ -90,6 +93,40 @@ public class SadariDetailUserActivity extends AppCompatActivity {
                                 textViewSadariSurveyDate.setText(nsdf.format(date));
                             } catch (ParseException e) {
                                 e.printStackTrace();
+                            }
+
+                            if (response.body().data.dataSadari.get(0).imgSadari1 != null || response.body().data.dataSadari.get(0).imgSadari2 != null) {
+                                linearLayoutDokumenUser.setVisibility(View.VISIBLE);
+
+                                if (response.body().data.dataSadari.get(0).imgSadari1 != null) {
+                                    Glide.with(SadariDetailUserActivity.this)
+                                            .load(response.body().data.dataSadari.get(0).imgSadari1)
+                                            //.load(R.drawable.img_default_video)
+                                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                            .skipMemoryCache(true)
+                                            .dontAnimate()
+                                            .dontTransform()
+                                            .priority(Priority.IMMEDIATE)
+                                            .encodeFormat(Bitmap.CompressFormat.PNG)
+                                            .format(DecodeFormat.DEFAULT)
+                                            .placeholder(R.drawable.img_default_video)
+                                            .into(imageViewDokumenUser1);
+                                }
+
+                                if (response.body().data.dataSadari.get(0).imgSadari2 != null) {
+                                    Glide.with(SadariDetailUserActivity.this)
+                                            .load(response.body().data.dataSadari.get(0).imgSadari2)
+                                            //.load(R.drawable.img_default_video)
+                                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                            .skipMemoryCache(true)
+                                            .dontAnimate()
+                                            .dontTransform()
+                                            .priority(Priority.IMMEDIATE)
+                                            .encodeFormat(Bitmap.CompressFormat.PNG)
+                                            .format(DecodeFormat.DEFAULT)
+                                            .placeholder(R.drawable.img_default_video)
+                                            .into(imageViewDokumenUser2);
+                                }
                             }
                         }
                         if (!response.body().data.dataSadariDetail.isEmpty()) {

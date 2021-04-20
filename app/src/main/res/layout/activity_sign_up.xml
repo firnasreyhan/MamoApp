@@ -123,7 +123,7 @@
                 android:clickable="true"
                 android:focusable="false"
                 android:fontFamily="@font/montserrat_regular"
-                android:inputType="phone"
+                android:inputType="date"
                 android:textColor="#333333" />
 
         </com.google.android.material.textfield.TextInputLayout>

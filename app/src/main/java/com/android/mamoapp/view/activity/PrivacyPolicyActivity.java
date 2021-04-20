@@ -25,17 +25,17 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
 
         webViewPrivacyPolicy.loadUrl("file:///android_asset/privacy_policy.html");
 
-        if (AppPreference.getPolicy(this)) {
-            materialButtonAgree.setVisibility(View.GONE);
-        } else {
-            materialButtonAgree.setVisibility(View.VISIBLE);
-        }
+//        if (AppPreference.getPolicy(this)) {
+//            materialButtonAgree.setVisibility(View.GONE);
+//        } else {
+//            materialButtonAgree.setVisibility(View.VISIBLE);
+//        }
 
         materialButtonAgree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppPreference.savePolicy(v.getContext(), true);
-                startActivity(new Intent(v.getContext(), SignInActivity.class));
+//                AppPreference.savePolicy(v.getContext(), true);
+                startActivity(new Intent(v.getContext(), TestVideoActivity.class));
                 finish();
             }
         });

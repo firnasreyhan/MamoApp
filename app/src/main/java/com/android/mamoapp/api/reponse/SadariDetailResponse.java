@@ -45,6 +45,12 @@ public class SadariDetailResponse extends BaseResponse{
 
             @SerializedName("IS_INDICATED")
             public String isIndicated;
+
+            @SerializedName("IMG1_SADARI")
+            public String imgSadari1;
+
+            @SerializedName("IMG2_SADARI")
+            public String imgSadari2;
         }
 
         public static class DataSadariDetail {

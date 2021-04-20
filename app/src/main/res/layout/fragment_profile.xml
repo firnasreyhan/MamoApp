@@ -146,6 +146,7 @@
         app:strokeWidth="0dp" />
 
     <com.google.android.material.button.MaterialButton
+        android:visibility="gone"
         android:id="@+id/materialButtonPrivacyPolicy"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="match_parent"

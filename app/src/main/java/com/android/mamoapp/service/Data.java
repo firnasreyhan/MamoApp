@@ -1,30 +1,30 @@
 package com.android.mamoapp.service;
 
 public class Data {
-    private String Title;
-    private String Message;
+    private String title;
+    private String body;
 
-    public Data(String title, String message) {
-        Title = title;
-        Message = message;
+    public Data(String title, String body) {
+        this.title = title;
+        this.body = body;
     }
 
     public Data() {
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
-    public String getMessage() {
-        return Message;
+    public String getBody() {
+        return body;
     }
 
-    public void setMessage(String message) {
-        Message = message;
+    public void setBody(String body) {
+        this.body = body;
     }
 }

@@ -21,9 +21,7 @@ import android.widget.Toast;
 import com.android.mamoapp.R;
 import com.android.mamoapp.api.ApiClient;
 import com.android.mamoapp.api.ApiInterface;
-import com.android.mamoapp.api.reponse.BaseResponse;
 import com.android.mamoapp.api.reponse.SadariImageResponse;
-import com.android.mamoapp.api.reponse.SadariResponse;
 import com.android.mamoapp.api.reponse.SadariResultDetailResponse;
 import com.android.mamoapp.preference.AppPreference;
 import com.android.mamoapp.service.APIService;
@@ -47,7 +45,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 import id.zelory.compressor.Compressor;
 import okhttp3.MediaType;
@@ -159,7 +156,7 @@ public class SadariResponseActivity extends AppCompatActivity {
 
     public void postImageSadari(String idSR) {
         RequestBody idSadariResult = RequestBody.create(MediaType.parse("text/plain"), idSR);
-        apiInterface.postImageSadari(
+        apiInterface.postImageResultSadari(
                 idSadariResult,
                 compressFile(uri1, "img1"),
                 compressFile(uri2, "img2")

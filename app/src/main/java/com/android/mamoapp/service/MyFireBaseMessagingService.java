@@ -29,8 +29,8 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        title=remoteMessage.getData().get("Title");
-        message=remoteMessage.getData().get("Message");
+        title = remoteMessage.getData().get("title");
+        message = remoteMessage.getData().get("body");
 
         final Intent intent = new Intent(this, SplashScreenActivity.class);
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);

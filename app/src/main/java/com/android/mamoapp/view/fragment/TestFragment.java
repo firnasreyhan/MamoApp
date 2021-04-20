@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.mamoapp.R;
+import com.android.mamoapp.view.activity.PrivacyPolicyActivity;
 import com.android.mamoapp.view.activity.TestVideoActivity;
 import com.google.android.material.button.MaterialButton;
 
@@ -26,7 +27,7 @@ public class TestFragment extends Fragment {
         materialButtonTestVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(v.getContext(), TestVideoActivity.class));
+                startActivity(new Intent(v.getContext(), PrivacyPolicyActivity.class));
             }
         });
 

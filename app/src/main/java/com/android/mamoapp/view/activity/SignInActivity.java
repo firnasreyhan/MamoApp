@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.android.mamoapp.R;
 import com.android.mamoapp.api.ApiClient;
 import com.android.mamoapp.api.ApiInterface;
+import com.android.mamoapp.api.reponse.BaseResponse;
 import com.android.mamoapp.api.reponse.LoginResponse;
 import com.android.mamoapp.preference.AppPreference;
 import com.android.mamoapp.service.Token;
@@ -37,6 +38,8 @@ public class SignInActivity extends AppCompatActivity {
     private TextInputEditText textInputEditTextEmail, textInputEditTextPassword;
     private MaterialButton materialButtonLogin;
     private TextView textViewSignUp;
+
+    private Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,19 +88,42 @@ public class SignInActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
                                     if (response.body() != null) {
                                         if (response.body().status) {
-                                            if (response.body().data.nameRole.equalsIgnoreCase("user") || response.body().data.nameRole.equalsIgnoreCase("dokter")) {
+                                            if (response.body().data.nameRole.equalsIgnoreCase("user") || response.body().data.nameRole.equalsIgnoreCase("DOCTOR")) {
                                                 saveUser(response.body().data);
                                                 String refreshToken = FirebaseInstanceId.getInstance().getToken();
                                                 updateToken(refreshToken);
                                                 if (response.body().data.nameRole.equalsIgnoreCase("user")) {
-                                                    startActivity(new Intent(v.getContext(), UserMainActivity.class));
+                                                    apiInterface.postToken(
+                                                            token.getToken()
+                                                    ).enqueue(new Callback<BaseResponse>() {
+                                                        @Override
+                                                        public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                                                            startActivity(new Intent(v.getContext(), UserMainActivity.class));
+                                                            finish();
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure(Call<BaseResponse> call, Throwable t) {
+
+                                                        }
+                                                    });
                                                 } else {
                                                     startActivity(new Intent(v.getContext(), DoctorMainActivity.class));
+                                                    finish();
                                                 }
-                                                finish();
                                             }
                                         } else {
-                                            alertErrorServer();
+                                            new AlertDialog.Builder(SignInActivity.this)
+                                                    .setTitle("Pesan")
+                                                    .setMessage(response.body().message)
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    })
+                                                    .create()
+                                                    .show();
                                         }
                                     } else {
                                         alertErrorServer();
@@ -158,5 +184,7 @@ public class SignInActivity extends AppCompatActivity {
         Log.e("userKey", userKey);
         Token token = new Token(refreshToken);
         FirebaseDatabase.getInstance().getReference("MamoApp").child("Token").child(userKey).setValue(token);
+
+        this.token = token;
     }
 }

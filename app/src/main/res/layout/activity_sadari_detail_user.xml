@@ -101,6 +101,70 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayoutDokumenUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|left"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:text="Dokumen User"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Gambar 1"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="9sp" />
+
+                    <ImageView
+                        android:id="@+id/imageViewDokumenUser1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Gambar 2"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="9sp" />
+
+                    <ImageView
+                        android:id="@+id/imageViewDokumenUser2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/linearLayoutIsIndicated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

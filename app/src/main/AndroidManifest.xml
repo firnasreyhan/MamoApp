@@ -14,7 +14,8 @@
         android:theme="@style/ThemeMamoApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".view.activity.PrivacyPolicyActivity"></activity>
+        <activity android:name=".view.activity.UploadGambarActivity"></activity>
+        <activity android:name=".view.activity.PrivacyPolicyActivity" />
 
         <service
             android:name=".service.MyFireBaseMessagingService"
