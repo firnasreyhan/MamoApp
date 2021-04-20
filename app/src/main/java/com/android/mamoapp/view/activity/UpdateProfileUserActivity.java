@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -60,6 +61,7 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
     private TextInputEditText textInputEditTextName, textInputEditTextPhone, textInputEditTextDateBirth;
     private MaterialButton materialButtonProfileSave;
     private Calendar calendar;
+    private ProgressDialog progressDialog;
 
     private String sDate;
     private MultipartBody.Part img1;
@@ -71,6 +73,7 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
         setTheme(R.style.ThemeWhiteMamoApp);
         setContentView(R.layout.activity_update_profile_user);
 
+        progressDialog = new ProgressDialog(this);
         calendar = Calendar.getInstance();
         apiInterface = ApiClient.getClient();
         floatingActionButtonAvatar = findViewById(R.id.floatingActionButtonAvatar);
@@ -138,6 +141,10 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
         materialButtonProfileSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.setMessage("Mohon tunggu sebentar...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
                 boolean cek1 = true;
                 boolean cek2 = true;
                 boolean cek3 = true;
@@ -167,6 +174,9 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
                     ).enqueue(new Callback<BaseResponse>() {
                         @Override
                         public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
                             if (response.body() != null) {
                                 if (response.body().status) {
                                     new AlertDialog.Builder(v.getContext())
@@ -178,7 +188,21 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     postLogin();
                                                     dialog.dismiss();
-                                                    finish();
+//                                                    finish();
+//                                                    onBackPressed();
+                                                }
+                                            })
+                                            .create()
+                                            .show();
+                                } else {
+                                    new AlertDialog.Builder(v.getContext())
+                                            .setCancelable(false)
+                                            .setTitle("Pesan")
+                                            .setMessage(response.body().message)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
                                                 }
                                             })
                                             .create()
@@ -191,6 +215,7 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<BaseResponse> call, Throwable t) {
+                            alertErrorServer();
                             Log.e("putProfile", t.getMessage());
                         }
                     });
@@ -220,15 +245,23 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
     }
 
     public void postLogin() {
+        progressDialog.setMessage("Mohon tunggu sebentar...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
         apiInterface.postLogin(
                 AppPreference.getUser(this).email,
                 AppPreference.getUser(this).password
         ).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
                 if (response.body().status) {
                     if (response.body().data != null) {
                         saveUser(response.body().data);
+                        finish();
                     }
                 }
             }
@@ -325,7 +358,18 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 //Uri resultUri = result.getUri();
                 uri = result.getUri();
-                shapeableImageViewAvatar.setImageURI(uri);
+//                shapeableImageViewAvatar.setImageURI(uri);
+                Glide.with(this)
+                        .load(uri)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .skipMemoryCache(true)
+                        .dontAnimate()
+                        .dontTransform()
+                        .priority(Priority.IMMEDIATE)
+                        .encodeFormat(Bitmap.CompressFormat.PNG)
+                        .format(DecodeFormat.DEFAULT)
+                        .placeholder(R.drawable.img_icon)
+                        .into(shapeableImageViewAvatar);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }

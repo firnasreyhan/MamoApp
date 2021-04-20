@@ -88,7 +88,7 @@ public class SignInActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
                                     if (response.body() != null) {
                                         if (response.body().status) {
-                                            if (response.body().data.nameRole.equalsIgnoreCase("user") || response.body().data.nameRole.equalsIgnoreCase("DOCTOR")) {
+                                            if (response.body().data.nameRole.equalsIgnoreCase("user") || response.body().data.nameRole.equalsIgnoreCase("doctor")) {
                                                 saveUser(response.body().data);
                                                 String refreshToken = FirebaseInstanceId.getInstance().getToken();
                                                 updateToken(refreshToken);
@@ -125,8 +125,6 @@ public class SignInActivity extends AppCompatActivity {
                                                     .create()
                                                     .show();
                                         }
-                                    } else {
-                                        alertErrorServer();
                                     }
                                 }
                             }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,5 +121,7 @@ public class ProfileFragment extends Fragment {
                 .into(shapeableImageViewAvatar);
         textViewProfileName.setText(AppPreference.getUser(getContext()).name);
         textViewProfilePhone.setText(AppPreference.getUser(getContext()).phone);
+
+        Log.e("name", AppPreference.getUser(getContext()).name);
     }
 }
