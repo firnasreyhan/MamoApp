@@ -66,7 +66,7 @@ public interface ApiInterface {
     Call<BaseResponse> postDetailSadari(
             @Field("idSadari") String idSadari,
             @Field("idQuestion") String idQuestion,
-            @Field("answer") boolean answer
+            @Field("answer") int answer
     );
 
     @POST("news/click")
