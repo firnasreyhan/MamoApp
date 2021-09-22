@@ -46,12 +46,12 @@
     <TextView
         android:id="@+id/textViewQuestion"
         android:layout_width="match_parent"
-        android:layout_height="125dp"
-        android:gravity="center|left"
+        android:layout_height="wrap_content"
         android:layout_marginStart="62dp"
         android:layout_marginTop="95dp"
         android:layout_marginEnd="62dp"
         android:fontFamily="@font/montserrat_medium"
+        android:gravity="center|left"
         android:lineSpacingExtra="8dp"
         android:textColor="@color/white"
         android:textSize="14sp"
@@ -64,31 +64,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="43dp"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="43dp"
+        android:layout_marginBottom="32dp"
         android:backgroundTint="@color/pink4"
         android:fontFamily="@font/montserrat_bold"
         android:text="YA"
         android:textColor="@color/white"
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/materialButtonNo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewQuestion" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/materialButtonNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="43dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="43dp"
+        android:layout_marginBottom="200dp"
         android:backgroundTint="@color/white"
         android:fontFamily="@font/montserrat_bold"
         android:text="TIDAK"
         android:textColor="@color/pink6"
         android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialButtonYes" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -136,7 +136,7 @@ public class TestResultActivity extends AppCompatActivity {
             apiInterface.postDetailSadari(
                     idSadari,
                     questionModelArrayList.get(i).idQuestion,
-                    questionModelArrayList.get(i).answer
+                    questionModelArrayList.get(i).answer ? 1 : 0
             ).enqueue(new Callback<BaseResponse>() {
                 @Override
                 public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
