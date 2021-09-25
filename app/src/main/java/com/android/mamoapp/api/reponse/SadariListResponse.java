@@ -22,9 +22,9 @@ public class SadariListResponse extends BaseResponse{
         public String dateSadari;
 
         @SerializedName("IS_CHECKED")
-        public int isChecked;
+        public String isChecked;
 
         @SerializedName("IS_INDICATED")
-        public int isIndicated;
+        public String isIndicated;
     }
 }

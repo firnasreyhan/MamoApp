@@ -29,7 +29,7 @@ public class SadariDetailAdapter extends RecyclerView.Adapter<SadariDetailAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.textViewContentQuestion.setText(list.get(position).contentQuestion);
-        if (list.get(position).answer.equalsIgnoreCase("t")) {
+        if (list.get(position).answer.equalsIgnoreCase("1")) {
             holder.textViewAnswer.setText("Ya");
             holder.textViewAnswer.setBackgroundResource(R.drawable.label_green);
         } else {

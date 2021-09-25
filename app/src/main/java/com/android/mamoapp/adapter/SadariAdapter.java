@@ -51,7 +51,7 @@ public class SadariAdapter extends RecyclerView.Adapter<SadariAdapter.ViewHolder
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if (list.get(position).isChecked == 1) {
+        if (list.get(position).isChecked.equalsIgnoreCase("1")) {
             holder.textViewStatusSadari.setText("Sudah Diperiksa");
             holder.textViewStatusSadari.setBackgroundResource(R.drawable.label_green);
         } else {

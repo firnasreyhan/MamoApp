@@ -77,7 +77,7 @@ public class SadariDetailUserActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     if (response.body().status) {
                         if (!response.body().data.dataSadari.isEmpty()) {
-                            if (response.body().data.dataSadari.get(0).isIndicated == 1) {
+                            if (response.body().data.dataSadari.get(0).isIndicated.equalsIgnoreCase("1")) {
                                 textViewSadariIsIndicated.setText("Terindikasi Kangker");
                                 linearLayoutIsIndicated.setVisibility(View.VISIBLE);
                                 setSadariResult(idSadari, response.body().data.dataSadari.get(0).isChecked);
@@ -168,8 +168,8 @@ public class SadariDetailUserActivity extends AppCompatActivity {
         recyclerViewSadariDetail.setAdapter(sadariDetailAdapter);
     }
 
-    public void setSadariResult(String idSadari, int isChecked) {
-        if (isChecked == 1) {
+    public void setSadariResult(String idSadari, String isChecked) {
+        if (isChecked.equalsIgnoreCase("1")) {
             textViewSadariIsChecked.setText("Sudah Diperiksa");
             textViewSadariIsChecked.setBackgroundResource(R.drawable.label_green);
         } else {

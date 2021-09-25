@@ -164,7 +164,7 @@ public class TestResultActivity extends AppCompatActivity {
             });
         }
 
-        putResultSadari(idSadari, result);
+        putResultSadari(idSadari, result ? 1 : 0);
     }
 
     public void putResultSadari(String idSadari, int isIdicated) {
