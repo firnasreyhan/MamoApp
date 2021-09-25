@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.mamoapp.R;
@@ -17,7 +19,16 @@ import com.android.mamoapp.api.reponse.BaseResponse;
 import com.android.mamoapp.api.reponse.QuestionResponse;
 import com.android.mamoapp.api.reponse.SadariResponse;
 import com.android.mamoapp.preference.AppPreference;
+import com.android.mamoapp.service.APIService;
+import com.android.mamoapp.service.Client;
+import com.android.mamoapp.service.Data;
+import com.android.mamoapp.service.MyResponse;
+import com.android.mamoapp.service.NotificationSender;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,6 +76,7 @@ public class TestResultActivity extends AppCompatActivity {
 
         if (result) {
             imageViewPositive.setVisibility(View.VISIBLE);
+            getUserToken("dokter@gmailcom");
         } else {
             imageViewNegative.setVisibility(View.VISIBLE);
         }
@@ -186,5 +198,41 @@ public class TestResultActivity extends AppCompatActivity {
                 })
                 .create()
                 .show();
+    }
+
+    public void getUserToken(String userKey) {
+        FirebaseDatabase.getInstance().getReference().child("MamoApp").child("Token").child(userKey).child("token").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String userToken = dataSnapshot.getValue(String.class);
+                sendNotifications(userToken, "Terdapat data kuesioner yang harus diperiksa!", "Silahkan cek aplikasi Anda.");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void sendNotifications(String userToken, String title, String message) {
+        Data data = new Data(title, message);
+        NotificationSender sender = new NotificationSender(data, userToken);
+        APIService apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+        apiService.sendNotifcation(sender).enqueue(new Callback<MyResponse>() {
+            @Override
+            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                if (response.code() == 200) {
+                    if (response.body().success != 1) {
+                        Toast.makeText(TestResultActivity.this, "Failed", Toast.LENGTH_LONG);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyResponse> call, Throwable t) {
+
+            }
+        });
     }
 }
