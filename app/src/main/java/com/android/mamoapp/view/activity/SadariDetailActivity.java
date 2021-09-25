@@ -96,14 +96,14 @@ public class SadariDetailActivity extends AppCompatActivity {
                                 textViewNameSadari.setText(dataSadari.name);
                                 textViewEmailSadari.setText(dataSadari.email);
                                 textViewPhoneSadari.setText(dataSadari.phone);
-                                if (dataSadari.isIndicated.equalsIgnoreCase("t")) {
+                                if (dataSadari.isIndicated == 1) {
                                     textViewIsIndicatedSadari.setText("Terindikasi Mengidap Kanker");
                                     textViewIsIndicatedSadari.setBackgroundResource(R.drawable.label_red);
                                 } else {
                                     textViewIsIndicatedSadari.setText("Tidak Terindikasi Mengidap Kanker");
                                     textViewIsIndicatedSadari.setBackgroundResource(R.drawable.label_green);
                                 }
-                                if (dataSadari.isChecked.equalsIgnoreCase("t")) {
+                                if (dataSadari.isChecked == 1) {
                                     materialButtonResponse.setVisibility(View.GONE);
                                 } else {
                                     materialButtonResponse.setVisibility(View.VISIBLE);

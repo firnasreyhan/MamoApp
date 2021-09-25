@@ -40,10 +40,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (list.get(position).isIndicated.equalsIgnoreCase("t")) {
+        if (list.get(position).isIndicated == 1) {
             holder.textViewSadariStatus.setText("Terindikasi Kangker");
             holder.textViewSadariIsChecked.setVisibility(View.VISIBLE);
-            if (list.get(position).isChecked.equalsIgnoreCase("t")) {
+            if (list.get(position).isChecked == 1) {
                 holder.textViewSadariIsChecked.setText("Sudah Diperiksa");
                 holder.textViewSadariIsChecked.setBackgroundResource(R.drawable.label_green);
             } else {

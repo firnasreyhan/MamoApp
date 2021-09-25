@@ -120,7 +120,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     Call<BaseResponse> putResultSadari(
             @Field("idSadari") String idSadari,
-            @Field("isIndicated") boolean isIndicated
+            @Field("isIndicated") int isIndicated
     );
 
     @PUT("user/profile")

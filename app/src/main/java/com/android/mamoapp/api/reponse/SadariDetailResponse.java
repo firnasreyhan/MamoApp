@@ -41,10 +41,10 @@ public class SadariDetailResponse extends BaseResponse{
             public String dateSadari;
 
             @SerializedName("IS_CHECKED")
-            public String isChecked;
+            public int isChecked;
 
             @SerializedName("IS_INDICATED")
-            public String isIndicated;
+            public int isIndicated;
 
             @SerializedName("IMG1_SADARI")
             public String imgSadari1;

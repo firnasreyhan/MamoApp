@@ -49,7 +49,7 @@ public class TestResultActivity extends AppCompatActivity {
 
     private String idSadari;
     private int point = 0;
-    private boolean result = false;
+    private int result = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +72,9 @@ public class TestResultActivity extends AppCompatActivity {
             }
         }
 
-        result = point > (point/2);
+        result = point > (point/2) ? 1 : 0;
 
-        if (result) {
+        if (result == 1) {
             imageViewPositive.setVisibility(View.VISIBLE);
             getUserToken("dokter@gmailcom");
         } else {
@@ -89,7 +89,7 @@ public class TestResultActivity extends AppCompatActivity {
         materialButtonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (result) {
+                if (result == 1) {
                     new AlertDialog.Builder(TestResultActivity.this)
                             .setTitle("Pesan")
                             .setMessage("Apakah anda ingin mengirim gambar hasil test?")
@@ -167,7 +167,7 @@ public class TestResultActivity extends AppCompatActivity {
         putResultSadari(idSadari, result);
     }
 
-    public void putResultSadari(String idSadari, boolean isIdicated) {
+    public void putResultSadari(String idSadari, int isIdicated) {
         apiInterface.putResultSadari(
                 idSadari,
                 isIdicated
