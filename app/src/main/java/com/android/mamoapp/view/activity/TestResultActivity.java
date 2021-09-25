@@ -49,7 +49,7 @@ public class TestResultActivity extends AppCompatActivity {
 
     private String idSadari;
     private int point = 0;
-    private int result = 0;
+    private boolean result = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +72,9 @@ public class TestResultActivity extends AppCompatActivity {
             }
         }
 
-        result = point > (point/2) ? 1 : 0;
+        result = point > (point/2);
 
-        if (result == 1) {
+        if (result) {
             imageViewPositive.setVisibility(View.VISIBLE);
             getUserToken("dokter@gmailcom");
         } else {
@@ -89,7 +89,7 @@ public class TestResultActivity extends AppCompatActivity {
         materialButtonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (result == 1) {
+                if (result) {
                     new AlertDialog.Builder(TestResultActivity.this)
                             .setTitle("Pesan")
                             .setMessage("Apakah anda ingin mengirim gambar hasil test?")

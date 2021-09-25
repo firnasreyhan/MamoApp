@@ -168,7 +168,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         //textViewContentNews.setText(Html.fromHtml(Html.fromHtml(model.contentNews).toString()));
 
         Glide.with(this)
-                .load("https://ilham.kristomoyo.com/images/news/" + model.newsImage)
+                .load("https://portal.mamoapp.org/images/news/" + model.newsImage)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .skipMemoryCache(true)
                 .dontAnimate()

@@ -39,7 +39,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Glide.with(holder.itemView.getContext())
-                .load("https://ilham.kristomoyo.com/images/news/" + list.get(position).newsImage)
+                .load("https://portal.mamoapp.org/images/news/" + list.get(position).newsImage)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .skipMemoryCache(true)
                 .dontAnimate()

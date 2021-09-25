@@ -2,6 +2,7 @@ package com.android.mamoapp.adapter;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class HeaderNewsAdapter extends RecyclerView.Adapter<HeaderNewsAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Glide.with(holder.itemView.getContext())
-                .load("https://ilham.kristomoyo.com/images/news/" + list.get(position).newsImage)
+                .load("https://portal.mamoapp.org/images/news/" + list.get(position).newsImage)
                 //.load(R.drawable.img_default_video)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .skipMemoryCache(true)
