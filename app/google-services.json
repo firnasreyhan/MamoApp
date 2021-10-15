@@ -42,6 +42,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968003817344:android:9ce06cead1427ddd637b65",
+        "android_client_info": {
+          "package_name": "com.strada.mamoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968003817344-ijlkh65ho925vbn5br956enn98bj25h2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_fx5WXbKeLcB-aR2xdtOW1fJwdOwhVdI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968003817344-ijlkh65ho925vbn5br956enn98bj25h2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
